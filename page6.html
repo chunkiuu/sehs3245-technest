@@ -1,0 +1,59 @@
+<?php
+// Start session tracking.
+session_start();
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TechNest - Thank You</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/validation.js" defer="defer"></script>
+</head>
+<body>
+    <header class="site-header">
+        <a href="intro.php" class="logo-link">
+            <img src="images/logo.png" alt="TechNest Online Shop logo" class="logo" width="140" height="70" />
+        </a>
+        <nav class="main-nav" aria-label="Main navigation">
+            <a href="intro.php">Home</a>
+            <a href="shop1.php">Smartphones &amp; Wearables</a>
+            <a href="shop2.php">Computers &amp; Displays</a>
+            <a href="shop3.php">Accessories &amp; Smart Home</a>
+            <a href="cart.php" class="cart-link">Shopping Cart</a>
+        </nav>
+    </header>
+
+    <!-- Main Thank You Section -->
+    <main class="thank-you-section">
+        <h1>Thank You for Shopping with TechNest!</h1>
+
+        <p>
+            Your order has been received successfully.
+            The products or service plans you selected have been stored in our database.
+        </p>
+
+        <!-- PHP: Display order reference if available -->
+        <p class="order-reference">
+            Order reference:
+            <!-- Ensure $orderRef is defined in your PHP logic before this line -->
+            <strong><?php echo isset($orderRef) ? htmlspecialchars($orderRef) : 'TN-000000'; ?></strong>
+        </p>
+
+        <p>
+            We appreciate your support and hope to see you again soon.
+        </p>
+
+        <!-- Navigation Buttons -->
+        <div class="page-actions">
+            <a href="intro.php" class="button">Back to Home</a>
+            <a href="shop1.php" class="button">Continue Shopping</a>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 TechNest Online Shop. All rights reserved.</p>
+    </footer>
+</body>
+</html>
