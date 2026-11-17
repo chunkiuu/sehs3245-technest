@@ -1,38 +1,38 @@
 # TechNest – SEHS3245 Group Project
 
-網上電子產品店，用 HTML5 + CSS3 + JavaScript + PHP + MySQL 製作，喺 XAMPP 上面 run。
+網上電子產品商店，以 HTML5、CSS3、JavaScript、PHP 及 MySQL 製作，於 XAMPP 上運行。
 
-組員原本交嘅檔案同後來改咗咩，睇 [CHANGES.md](CHANGES.md)。
+組員最初提交的檔案及其後的修改，請參閱 [CHANGES.md](CHANGES.md)。
 
-## 第一次 setup（每人做一次）
+## 首次設定（每位組員只需進行一次）
 
-1. 裝 **XAMPP** 同 **GitHub Desktop**
-2. GitHub Desktop → File → Clone repository → 揀呢個 repo，Local path 揀 `htdocs`：
+1. 安裝 **XAMPP** 及 **GitHub Desktop**
+2. 於 GitHub Desktop 選擇 File → Clone repository → 選取本 repo，並將 Local path 設為 `htdocs`：
    - Windows：`C:\xampp\htdocs`
    - Mac：`/Applications/XAMPP/xamppfiles/htdocs`
-3. 開 XAMPP，Start **Apache** 同 **MySQL**
-4. 開 <http://localhost/phpmyadmin> → Import → 揀 `sql/shop.sql` → Go
-5. 喺 browser 開 <http://localhost/technest/>
+3. 開啟 XAMPP，啟動（Start）**Apache** 及 **MySQL**
+4. 開啟 <http://localhost/phpmyadmin> → Import → 選取 `sql/shop.sql` → Go
+5. 於瀏覽器開啟 <http://localhost/technest/>
 
-## 分工（每人只改自己嘅檔）
+## 分工（每位組員只修改自己負責的檔案）
 
-| 組員 | 頁面 | 負責技術 | 負責嘅檔 |
+| 組員 | 頁面 | 負責技術 | 負責檔案 |
 |---|---|---|---|
-| **A**（Leader） | 第 1 頁 Introduction | HTML5 + include | `index.php`、`includes/header.php`、`includes/footer.php`、`images/logo.png` |
+| **A**（組長） | 第 1 頁 Introduction | HTML5 及 include | `index.php`、`includes/header.php`、`includes/footer.php`、`images/logo.png` |
 | **B** | 第 2 頁 Smartphones & Wearables | CSS3 | `shop1.php`、`css/style.css` |
 | **C** | 第 3 頁 Computers & Displays | JavaScript | `shop2.php`、`js/validation.js` |
 | **D** | 第 4 頁 Accessories & Smart Home | PHP Session | `shop3.php`、`add_to_cart.php`、`update_cart.php`、`remove_from_cart.php` |
-| **E** | 第 5 頁購物車、第 6 頁 Thank-you | SQL + PHP | `cart.php`、`thankyou.php`、`includes/db.php`、`sql/shop.sql` |
+| **E** | 第 5 頁購物車、第 6 頁感謝頁 | SQL 及 PHP | `cart.php`、`thankyou.php`、`includes/db.php`、`sql/shop.sql` |
 
-## 5 條規則
+## 協作守則
 
-1. **開工前一定要撳 Pull**（GitHub Desktop：Fetch origin → Pull），寫完即刻 Commit + Push
-2. **只改自己負責嘅檔**
-3. Commit message 要寫清楚，例如 `B: add hover effect to product cards`
-4. 要改共用檔（`header.php`、`footer.php`、`style.css`、`db.php`），**先喺 group chat 講**
-5. **唔好 upload zip 檔**，所有嘢都直接放入 repo
+1. **開始工作前必須先 Pull**（GitHub Desktop：Fetch origin → Pull），完成後立即 Commit 及 Push
+2. **只修改自己負責的檔案**
+3. Commit message 須清楚說明修改內容，例如 `B: add hover effect to product cards`
+4. 如需修改共用檔案（`header.php`、`footer.php`、`style.css`、`db.php`），**須先於群組通知其他組員**
+5. **請勿上載 zip 檔**，所有檔案應直接放入 repo
 
-改咗 `sql/shop.sql` 嘅話，要喺 group chat 通知大家重新 Import 一次。
+如修改了 `sql/shop.sql`，須於群組通知所有組員重新 Import 一次。
 
 ## 頁面流程
 
@@ -41,7 +41,7 @@ index.php → shop1/2/3.php → add_to_cart.php → cart.php → thankyou.php（
                                 ↑ update_cart.php / remove_from_cart.php
 ```
 
-購物車用 `$_SESSION['cart']` 儲存（**唔准用 cookie**）。格式：
+購物車以 `$_SESSION['cart']` 儲存（**不可使用 cookie**），格式如下：
 
 ```php
 $_SESSION['cart']['P101'] = [
@@ -52,19 +52,19 @@ $_SESSION['cart']['P101'] = [
 ];
 ```
 
-## 未完成（TODO）
+## 待辦事項
 
-- [ ] **A**：設計 logo，存做 `images/logo.png`；介紹文字改寫成自己嘅講法（上限 600 字）
-- [ ] **B**：寫 `css/style.css`（class 名已經列喺檔案頂）
-- [ ] **C**：寫 `js/validation.js`（數量檢查、即時計 subtotal、Buy 之前檢查客人資料）
-- [ ] **D**：寫 `add_to_cart.php`、`update_cart.php`、`remove_from_cart.php`
-- [ ] **E**：`thankyou.php` 寫入 `orders` 同 `order_details`
-- [ ] **E + C**：購物車頁加客人姓名同地址欄位（`orders` table 需要）
-- [ ] **B + C + D**：考慮由 `products` table 讀產品，再用 PHP `foreach` 印出產品卡，避免 15 張卡 code 重複（Readability 分）
-- [ ] 縮細 `images/p202.jpg`（3284×1736 px，太大）
+- [ ] **A**：設計標誌（logo），儲存為 `images/logo.png`；以自己的文字改寫介紹內容（上限 600 字）
+- [ ] **B**：編寫 `css/style.css`（所需的 class 名稱已列於檔案開首）
+- [ ] **C**：編寫 `js/validation.js`（檢查數量、即時計算小計、按 Buy 前檢查顧客資料）
+- [ ] **D**：編寫 `add_to_cart.php`、`update_cart.php` 及 `remove_from_cart.php`
+- [ ] **E**：於 `thankyou.php` 將訂單寫入 `orders` 及 `order_details`
+- [ ] **E 及 C**：於購物車頁加入顧客姓名及地址欄位（`orders` table 需要此資料）
+- [ ] **B、C 及 D**：考慮從 `products` table 讀取產品，再以 PHP `foreach` 輸出產品卡，避免 15 張產品卡的程式碼重複（影響 Readability 分數）
+- [ ] 縮小 `images/p202.jpg`（3284×1736 px，檔案過大）
 
-## 交功課（Leader）
+## 提交功課（由組長負責）
 
-最後要交一個 zip，入面有：所有 code、Word 檔（所有 code + SQL，第一頁頂要有 SEHS3245、Web Systems and Technologies、交功課日期、全組姓名同學號）、每人一份 `組號_姓名_學號.pptx`。zip 檔名：`組號_Leader名.zip`。
+最終須提交一個 zip 檔，內容包括：所有程式碼；Word 文件（載有所有程式碼及 SQL，首頁頂部須列明 SEHS3245、Web Systems and Technologies、提交日期，以及全體組員姓名及學號）；每位組員的 `組號_姓名_學號.pptx`。zip 檔須命名為 `組號_組長姓名.zip`。
 
-Comment 一律用英文寫，因為 lecturer 會睇。
+程式碼內的註解（comment）一律以英文撰寫，因為講師會閱讀。
