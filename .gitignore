@@ -1,0 +1,11 @@
+# macOS / Windows system files
+.DS_Store
+__MACOSX/
+Thumbs.db
+
+# Do not commit zip files
+*.zip
+
+# Editor settings
+.vscode/
+.idea/

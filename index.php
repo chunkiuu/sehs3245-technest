@@ -1,28 +1,13 @@
 <?php
-// PHP part: session_start(); must be called before any HTML output.
-// session_start();
+/*
+ * File: index.php
+ * Owner: A
+ * Page 1: Introduction to the TechNest online shop (max 600 words).
+ */
+session_start();
+$pageTitle = 'Introduction';
+include 'includes/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TechNest Online Shop - Introduction</title>
-    <link rel="stylesheet" href="css/style.css" />
-    <script src="js/validation.js" defer="defer"></script>
-</head>
-<body>
-    <header class="site-header">
-        <a href="intro.php" class="logo-link">
-            <img src="images/logo.png" alt="TechNest Online Shop logo" class="logo" width="140" height="70" />
-        </a>
-        <nav class="main-nav" aria-label="Main navigation">
-            <a href="shop1.php">Smartphones &amp; Wearables</a>
-            <a href="shop2.php">Computers &amp; Displays</a>
-            <a href="shop3.php">Accessories &amp; Smart Home</a>
-            <a href="cart.php" class="cart-link">Shopping Cart</a>
-        </nav>
-    </header>
 
     <main>
         <section id="introduction" class="introduction-section">
@@ -65,9 +50,4 @@
         </section>
     </main>
 
-    <footer class="site-footer">
-        <p>&copy; 2026 TechNest Online Shop. All rights reserved.</p>
-        <p><a href="cart.php">View Shopping Cart</a></p>
-    </footer>
-</body>
-</html>
+<?php include 'includes/footer.php'; ?>
