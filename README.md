@@ -8,6 +8,7 @@
 2. 將 `technest` 資料夾放入 `htdocs`（Windows：`C:\xampp\htdocs`；Mac：`/Applications/XAMPP/xamppfiles/htdocs`）
 3. 開啟 <http://localhost/phpmyadmin> → 匯入（Import）→ 選擇 `sql/shop.sql` → 執行（Go）
    - 若之前已匯入過，請先刪除舊資料庫：點選 `shop_db` → Operations → Drop the database，再重新匯入
+   - 重新匯入會清除所有訂單，產品存貨亦會回復原本數字
 4. 開啟 <http://localhost/technest/>
 
 `.php` 檔案不能直接點兩下開啟，必須透過 localhost 瀏覽。
@@ -16,11 +17,11 @@
 
 | 組員 | 負責語言 | 檔案 |
 |---|---|---|
-| **組長** | PHP | `includes/session.php`、`includes/db.php`、`add_to_cart.php`、`remove_from_cart.php`、`place_order.php`，以及 `cart.php`、`thankyou.php` 的 PHP 部分 |
-| **HTML 組員** | HTML5 | `index.php`、`shop1.php`、`shop2.php`、`shop3.php`、`includes/header.php`、`includes/footer.php`、`images/`，以及 `cart.php`、`thankyou.php` 的 HTML 部分 |
-| **CSS 組員** | CSS3 | `css/style.css` |
-| **JS 組員** | JavaScript | `js/validation.js` |
-| **SQL 組員** | SQL | `sql/shop.sql`，以及 PHP 檔案內的 SQL 語句 |
+| **Chow Chun Kiu**（組長） | PHP | `includes/session.php`、`includes/db.php`、`add_to_cart.php`、`remove_from_cart.php`、`place_order.php`，以及 `shop1/2/3.php`、`cart.php`、`thankyou.php` 的 PHP 部分 |
+| **KU Ho Tin** | HTML5 | `index.php`、`shop1.php`、`shop2.php`、`shop3.php`、`includes/header.php`、`includes/footer.php`、`images/`，以及 `cart.php`、`thankyou.php` 的 HTML 部分 |
+| **SONG Guoqing** | CSS3 | `css/style.css` |
+| **LIN Zixi** | JavaScript | `js/validation.js` |
+| **Lo Ching Yu** | SQL | `sql/shop.sql`，以及 PHP 檔案內的 SQL 語句 |
 
 ## 協作守則
 
@@ -49,6 +50,7 @@
 - 副檔名由 `.html` 改為 `.php`，使 PHP 能夠執行：`page1` → `index.php`、`page2` → `shop1.php`、`page4` → `shop2.php`、`page3` → `shop3.php`、`page5` → `cart.php`、`page6` → `thankyou.php`
 - 各頁重複的 header 及 footer 抽出至 `includes/`，以 `include` 引入
 - 介紹文字、產品內容及圖片沒有修改
+- 購物頁的「Available quantity」及數量上限改為從資料庫讀取，下單後會自動減少（HTML 結構不變）
 - `sql/shop.sql` 的資料庫結構及註解與原稿相同，只修改兩處：第 13 行 `--default` 加一個空格（否則匯入時會出錯），以及更換為購物頁的產品資料（產品編號 101 至 305）
 
 ## 提交功課（由組長負責）
