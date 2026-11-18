@@ -1,7 +1,7 @@
 <?php
 /*
  * File: remove_from_cart.php
- * Owner: D
+ * Owner: PHP
  * Receives remove_id (the product_id) from the Remove button in cart.php
  * and removes that item from the cart.
  * See the $_SESSION['cart'] format at the top of cart.php.

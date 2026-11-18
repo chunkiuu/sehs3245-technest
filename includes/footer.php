@@ -1,7 +1,7 @@
 <?php
 /*
  * File: includes/footer.php
- * Owner: A
+ * Owner: HTML
  * Shared page footer included at the bottom of every page.
  */
 ?>

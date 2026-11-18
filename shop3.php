@@ -1,7 +1,7 @@
 <?php
 /*
  * File: shop3.php
- * Owner: D
+ * Owner: HTML
  * Page 4: Shopping page - Accessories & Smart Home (5 products).
  */
 include 'includes/session.php';

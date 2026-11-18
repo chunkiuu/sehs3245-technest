@@ -1,7 +1,7 @@
 <?php
 /*
  * File: index.php
- * Owner: A
+ * Owner: HTML
  * Page 1: Introduction to the TechNest online shop (max 600 words).
  */
 include 'includes/session.php';

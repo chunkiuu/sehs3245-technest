@@ -117,3 +117,7 @@
 | `thankyou.php` | 檢查資料後，以 transaction 及 prepared statement 將訂單寫入 `orders` 及 `order_details`，並顯示訂單編號（例如 `TN-000001`） |
 | `shop1/2/3.php`、`cart.php` | 刪除人手加入的 session ID 隱藏欄位，因為 `session.php` 已自動加入，保留會出現重複 |
 | `update_cart.php` | 轉頁時加上 `SID` |
+
+## 分工調整（2026 年 11 月 18 日）
+
+分工由「按頁面」改為「按語言」：組長負責 PHP，其餘四位組員分別負責 HTML、CSS、JavaScript 及 SQL。README 的分工表、待辦事項及各檔案開首的 `Owner` 註解已相應更新。

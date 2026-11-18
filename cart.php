@@ -1,12 +1,12 @@
 <?php
 /*
  * File: cart.php
- * Owner: E
+ * Owner: HTML (page layout) + PHP (cart logic)
  * Page 5: Shopping cart. Lists the products stored in $_SESSION['cart'].
  * The table and the Buy button are wrapped in a single form, so the latest
  * quantities are sent to thankyou.php when the user clicks "Buy".
  *
- * $_SESSION['cart'] format (written by D in add_to_cart.php):
+ * $_SESSION['cart'] format (written in add_to_cart.php):
  *   $_SESSION['cart']['P101'] = ['product_id' => 'P101', 'product_name' => 'Nova X1 Smartphone',
  *                                'unit_price' => 4999.00, 'quantity' => 2];
  */

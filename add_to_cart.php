@@ -1,7 +1,7 @@
 <?php
 /*
  * File: add_to_cart.php
- * Owner: D
+ * Owner: PHP
  * Receives product_id + quantity from a shopping page form and adds it to $_SESSION['cart'].
  * See the $_SESSION['cart'] format at the top of cart.php.
  */

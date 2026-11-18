@@ -1,7 +1,7 @@
 <?php
 /*
  * File: thankyou.php
- * Owner: E
+ * Owner: HTML (page layout) + PHP (saving the order) + SQL (INSERT statements)
  * Page 6: Thank-you page. Saves the products in $_SESSION['cart'] into MySQL
  * (orders + order_details tables), then shows a thank-you message.
  */

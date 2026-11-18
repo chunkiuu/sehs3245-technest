@@ -1,5 +1,5 @@
 -- File: sql/shop.sql
--- Owner: E (original author: Lo Ching Yu)
+-- Owner: SQL (original author: Lo Ching Yu)
 -- Description: creates the TechNest database, its tables and the product data.
 -- How to use: phpMyAdmin > Import > choose this file.
 -- Re-importing deletes the old local shop_db first, so everyone gets the same data.
