@@ -1,7 +1,7 @@
 <?php
 /*
  * File: includes/db.php
- * Owner: PHP
+ * Author: Chow Chun Kiu
  * Connects to the shop_db MySQL database (XAMPP default: user "root", no password).
  * Usage: include 'includes/db.php'; then use $pdo.
  */

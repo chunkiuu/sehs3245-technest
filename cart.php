@@ -1,7 +1,7 @@
 <?php
 /*
  * File: cart.php
- * Owner: HTML (page layout) + PHP (cart logic)
+ * Author: KU Ho Tin (HTML page layout), Chow Chun Kiu (PHP cart logic)
  * Page 5: Shopping cart. Lists the products stored in $_SESSION['cart'].
  * The table and the Buy button are wrapped in a single form, so the latest
  * quantities are sent to place_order.php when the user clicks "Buy".

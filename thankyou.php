@@ -1,7 +1,7 @@
 <?php
 /*
  * File: thankyou.php
- * Owner: HTML (page layout) + PHP (loading the order) + SQL (SELECT ... JOIN)
+ * Author: KU Ho Tin (HTML page layout), Chow Chun Kiu (PHP and SQL to load the order)
  * Page 6: Thank-you page. Shows a summary of the order just saved by place_order.php.
  * The summary is read back from MySQL, which shows the order really is in the database.
  */

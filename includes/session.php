@@ -1,7 +1,7 @@
 <?php
 /*
  * File: includes/session.php
- * Owner: PHP
+ * Author: Chow Chun Kiu
  * Starts the PHP session WITHOUT cookies. Include this at the very top of every page
  * (before any HTML output) instead of calling session_start() directly.
  *

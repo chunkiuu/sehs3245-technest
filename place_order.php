@@ -1,7 +1,7 @@
 <?php
 /*
  * File: place_order.php
- * Owner: PHP (checking and saving the order) + SQL (INSERT statements)
+ * Author: Chow Chun Kiu
  * Receives the Buy form from cart.php, checks it, saves the products in $_SESSION['cart']
  * into MySQL (orders + order_details tables), then redirects to thankyou.php.
  * Redirecting after saving (Post/Redirect/Get) means refreshing the thank-you page
