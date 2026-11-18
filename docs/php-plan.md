@@ -15,7 +15,10 @@ shop1/2/3.php ──(Add to Cart)──▶ add_to_cart.php ──▶ cart.php
                                                       │
                      remove_from_cart.php ◀─(Remove)──┤
                                                       │
-                                       (Buy) ──▶ thankyou.php ──▶ 寫入 MySQL
+                                       (Buy) ──▶ place_order.php ──▶ 寫入 MySQL
+                                                      │
+                                                      ▼
+                                     thankyou.php（從 MySQL 讀出訂單摘要）
 ```
 
 所有頁面均以 `include 'includes/session.php';` 啟動 session。
@@ -76,7 +79,7 @@ $_SESSION['cart']['P101'] = [
   - `customer_name`：必填，最多 50 字（對應 `orders.customer_name VARCHAR(50)`）
   - `address`：必填，最多 255 字（對應 `orders.address VARCHAR(255)`）
 
-## 第 5 步：儲存訂單（`thankyou.php`）
+## 第 5 步：儲存訂單（`place_order.php`）
 
 1. 只接受由購物車送出的 POST，且購物車不可為空；否則轉回 `cart.php`
 2. 按 `$_POST['quantity']` 更新數量，並檢查每個數量為 1 至存貨之間的整數
@@ -90,7 +93,16 @@ $_SESSION['cart']['P101'] = [
    5. `$pdo->commit()`；如出錯則 `$pdo->rollBack()`
 6. 所有 SQL 均使用 prepared statement（`prepare` 及 `execute`），防止 SQL injection
 7. 訂單編號格式為 `TN-000001`
-8. 寫入成功後 `unset($_SESSION['cart'])`，重新整理頁面亦不會重複下單
+8. 寫入成功後，將訂單編號存入 `$_SESSION['last_order_id']`，清空購物車，再轉到 `thankyou.php`
+
+## 第 6 步：感謝頁訂單摘要（`thankyou.php`）
+
+1. 採用 **Post/Redirect/Get**：`place_order.php` 處理 POST 後轉頁，`thankyou.php` 以 GET 顯示。重新整理感謝頁只會再次顯示，不會重複下單，瀏覽器亦不會彈出「重新提交表單」的警告
+2. 只讀取 `$_SESSION['last_order_id']` 的訂單，不接受網址上的訂單編號，避免他人查看其他顧客的姓名及地址
+3. 訂單摘要從 MySQL 讀出（而非 session），證明訂單確實已存入資料庫：
+   - `SELECT ... FROM orders WHERE order_id = ?`：顧客姓名、地址、總額、下單時間
+   - `SELECT ... FROM order_details d JOIN products p ON d.product_id = p.product_id`：每件產品的名稱、單價及數量
+4. 顯示內容一律使用 `htmlspecialchars()`，防止 XSS；地址以 `nl2br()` 保留換行
 
 ## 測試清單
 
@@ -103,6 +115,9 @@ $_SESSION['cart']['P101'] = [
 - [ ] 未填姓名或地址時，不能完成訂單
 - [ ] 下單後，phpMyAdmin 的 `orders` 及 `order_details` 出現對應資料
 - [ ] 下單後購物車清空；重新整理感謝頁不會重複下單
+- [ ] 感謝頁顯示正確的顧客姓名、地址、產品、數量及總額
+- [ ] 未下單直接開啟 `thankyou.php`，會轉回購物車
+- [ ] 姓名輸入 `<b>Tim</b>`，感謝頁顯示文字而非粗體（防止 XSS）
 
 ## Presentation 重點（約 2 分鐘）
 
@@ -111,3 +126,5 @@ $_SESSION['cart']['P101'] = [
 3. 為何價錢從資料庫讀取，而非信任表單
 4. 以 prepared statement 防止 SQL injection
 5. 以 transaction 確保 `orders` 與 `order_details` 一同寫入
+6. Post/Redirect/Get：重新整理不會重複下單
+7. 感謝頁以 `JOIN` 從資料庫讀出訂單摘要，證明訂單已儲存

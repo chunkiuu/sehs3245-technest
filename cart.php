@@ -4,7 +4,7 @@
  * Owner: HTML (page layout) + PHP (cart logic)
  * Page 5: Shopping cart. Lists the products stored in $_SESSION['cart'].
  * The table and the Buy button are wrapped in a single form, so the latest
- * quantities are sent to thankyou.php when the user clicks "Buy".
+ * quantities are sent to place_order.php when the user clicks "Buy".
  *
  * $_SESSION['cart'] format (written in add_to_cart.php):
  *   $_SESSION['cart']['P101'] = ['product_id' => 'P101', 'product_name' => 'Nova X1 Smartphone',
@@ -18,7 +18,7 @@ include 'includes/header.php';
 $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
 $total = 0;
 
-// A message from add_to_cart.php, remove_from_cart.php or thankyou.php (shown once, then deleted)
+// A message from add_to_cart.php, remove_from_cart.php or place_order.php (shown once, then deleted)
 $message = isset($_SESSION['cart_message']) ? $_SESSION['cart_message'] : '';
 unset($_SESSION['cart_message']);
 
@@ -42,9 +42,9 @@ $address      = isset($_SESSION['customer']['address']) ? $_SESSION['customer'][
 <?php } else { ?>
         <!--
             Wrap the table and Buy button in a single form.
-            When the user clicks "Buy", the latest quantities will be sent to thankyou.php.
+            When the user clicks "Buy", the latest quantities will be sent to place_order.php.
         -->
-        <form action="thankyou.php" method="post" id="checkout-form">
+        <form action="place_order.php" method="post" id="checkout-form">
 
             <table class="cart-table">
                 <thead>
@@ -120,7 +120,7 @@ $address      = isset($_SESSION['customer']['address']) ? $_SESSION['customer'][
                 <a href="shop2.php" class="button">Shop Computers &amp; Displays</a>
                 <a href="shop3.php" class="button">Shop Accessories &amp; Smart Home</a>
 
-                <!-- Buy Button submits the whole form to thankyou.php -->
+                <!-- Buy Button submits the whole form to place_order.php -->
                 <button type="submit" class="button buy-button">Buy</button>
             </div>
         </form>
