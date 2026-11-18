@@ -11,16 +11,28 @@
  *                                'unit_price' => 4999.00, 'quantity' => 2];
  */
 // Start session tracking.
-session_start();
+include 'includes/session.php';
 $pageTitle = 'Shopping Cart';
 include 'includes/header.php';
 
 $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
 $total = 0;
+
+// A message from add_to_cart.php, remove_from_cart.php or thankyou.php (shown once, then deleted)
+$message = isset($_SESSION['cart_message']) ? $_SESSION['cart_message'] : '';
+unset($_SESSION['cart_message']);
+
+// Customer details typed before, so the user does not need to type them again after an error
+$customerName = isset($_SESSION['customer']['name']) ? $_SESSION['customer']['name'] : '';
+$address      = isset($_SESSION['customer']['address']) ? $_SESSION['customer']['address'] : '';
 ?>
 
     <main>
         <h1>Your Shopping Cart</h1>
+
+<?php if ($message !== '') { ?>
+        <p class="cart-message"><?php echo htmlspecialchars($message); ?></p>
+<?php } ?>
 
 <?php if (empty($cart)) { ?>
         <p class="empty-cart-message">
@@ -33,8 +45,6 @@ $total = 0;
             When the user clicks "Buy", the latest quantities will be sent to thankyou.php.
         -->
         <form action="thankyou.php" method="post" id="checkout-form">
-            <!-- Hidden input for session ID (No cookies allowed) -->
-            <input type="hidden" name="<?php echo session_name(); ?>" value="<?php echo session_id(); ?>" />
 
             <table class="cart-table">
                 <thead>
@@ -91,7 +101,19 @@ $total = 0;
                 </tfoot>
             </table>
 
-            <!-- TODO (E + C): add customer name / address fields here; orders table needs them -->
+            <!-- Customer details: saved in the orders table (maxlength matches the table columns) -->
+            <fieldset class="customer-details">
+                <legend>Customer Details</legend>
+                <p>
+                    <label for="customer-name">Name:</label>
+                    <input type="text" id="customer-name" name="customer_name" maxlength="50" required="required"
+                           value="<?php echo htmlspecialchars($customerName); ?>" />
+                </p>
+                <p>
+                    <label for="address">Address:</label>
+                    <textarea id="address" name="address" maxlength="255" rows="3" cols="40" required="required"><?php echo htmlspecialchars($address); ?></textarea>
+                </p>
+            </fieldset>
 
             <div class="cart-actions">
                 <a href="shop1.php" class="button">Shop Smartphones &amp; Wearables</a>

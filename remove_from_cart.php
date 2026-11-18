@@ -6,11 +6,16 @@
  * and removes that item from the cart.
  * See the $_SESSION['cart'] format at the top of cart.php.
  */
-session_start();
+include 'includes/session.php';
 
-// TODO (D): unset($_SESSION['cart'][$_POST['remove_id']]).
+$removeId = isset($_POST['remove_id']) ? $_POST['remove_id'] : '';
 
-// Go back to the shopping cart page after the change
-header('Location: cart.php');
+if (isset($_SESSION['cart'][$removeId])) {
+    $_SESSION['cart_message'] = $_SESSION['cart'][$removeId]['product_name'] . ' has been removed from your cart.';
+    unset($_SESSION['cart'][$removeId]);
+}
+
+// Go back to the shopping cart page. SID keeps the session ID in the URL (no cookies).
+header('Location: cart.php?' . SID);
 exit;
 ?>

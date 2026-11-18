@@ -4,7 +4,7 @@
  * Owner: A
  * Page 1: Introduction to the TechNest online shop (max 600 words).
  */
-session_start();
+include 'includes/session.php';
 $pageTitle = 'Introduction';
 include 'includes/header.php';
 ?>

@@ -3,7 +3,7 @@
  * File: includes/header.php
  * Owner: A
  * Shared page header (logo + navigation) included at the top of every page.
- * Before including this file, the page must call session_start() and
+ * Before including this file, the page must include includes/session.php and
  * set $pageTitle, e.g. $pageTitle = 'Shopping Cart';
  */
 ?>

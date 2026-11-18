@@ -8,11 +8,11 @@
  * Update button back (e.g. <button formaction="update_cart.php">).
  * See the $_SESSION['cart'] format at the top of cart.php.
  */
-session_start();
+include 'includes/session.php';
 
 // TODO (D): validate $_POST['quantity'] (whole number >= 1) and update $_SESSION['cart'][$_POST['product_id']]['quantity'].
 
 // Go back to the shopping cart page after the change
-header('Location: cart.php');
+header('Location: cart.php?' . SID);
 exit;
 ?>

@@ -4,7 +4,7 @@
  * Owner: B
  * Page 2: Shopping page - Smartphones & Wearables (5 products).
  */
-session_start();
+include 'includes/session.php';
 $pageTitle = 'Smartphones & Wearables';
 include 'includes/header.php';
 ?>
@@ -24,7 +24,6 @@ include 'includes/header.php';
                 <p class="stock">Available quantity: 50</p>
                 <form class="add-to-cart-form" action="add_to_cart.php" method="post">
                     <input type="hidden" name="product_id" value="P101" />
-                    <input type="hidden" name="<?php echo session_name(); ?>" value="<?php echo session_id(); ?>" />
                     <label for="qty-P101">Quantity:</label>
                     <input type="number" id="qty-P101" name="quantity" class="qty-input" min="1" max="50" step="1" value="1" required="required" />
                     <button type="submit" class="button add-cart-button">Add to Cart</button>
@@ -40,7 +39,6 @@ include 'includes/header.php';
                 <p class="stock">Available quantity: 30</p>
                 <form class="add-to-cart-form" action="add_to_cart.php" method="post">
                     <input type="hidden" name="product_id" value="P102" />
-                    <input type="hidden" name="<?php echo session_name(); ?>" value="<?php echo session_id(); ?>" />
                     <label for="qty-P102">Quantity:</label>
                     <input type="number" id="qty-P102" name="quantity" class="qty-input" min="1" max="30" step="1" value="1" required="required" />
                     <button type="submit" class="button add-cart-button">Add to Cart</button>
@@ -56,7 +54,6 @@ include 'includes/header.php';
                 <p class="stock">Available quantity: 80</p>
                 <form class="add-to-cart-form" action="add_to_cart.php" method="post">
                     <input type="hidden" name="product_id" value="P103" />
-                    <input type="hidden" name="<?php echo session_name(); ?>" value="<?php echo session_id(); ?>" />
                     <label for="qty-P103">Quantity:</label>
                     <input type="number" id="qty-P103" name="quantity" class="qty-input" min="1" max="80" step="1" value="1" required="required" />
                     <button type="submit" class="button add-cart-button">Add to Cart</button>
@@ -72,7 +69,6 @@ include 'includes/header.php';
                 <p class="stock">Available quantity: 120</p>
                 <form class="add-to-cart-form" action="add_to_cart.php" method="post">
                     <input type="hidden" name="product_id" value="P104" />
-                    <input type="hidden" name="<?php echo session_name(); ?>" value="<?php echo session_id(); ?>" />
                     <label for="qty-P104">Quantity:</label>
                     <input type="number" id="qty-P104" name="quantity" class="qty-input" min="1" max="120" step="1" value="1" required="required" />
                     <button type="submit" class="button add-cart-button">Add to Cart</button>
@@ -88,7 +84,6 @@ include 'includes/header.php';
                 <p class="stock">Available quantity: 100</p>
                 <form class="add-to-cart-form" action="add_to_cart.php" method="post">
                     <input type="hidden" name="product_id" value="P105" />
-                    <input type="hidden" name="<?php echo session_name(); ?>" value="<?php echo session_id(); ?>" />
                     <label for="qty-P105">Quantity:</label>
                     <input type="number" id="qty-P105" name="quantity" class="qty-input" min="1" max="100" step="1" value="1" required="required" />
                     <button type="submit" class="button add-cart-button">Add to Cart</button>

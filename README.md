@@ -42,7 +42,11 @@ index.php → shop1/2/3.php → add_to_cart.php → cart.php → thankyou.php（
                                 ↑ remove_from_cart.php（Remove 按鈕）
 ```
 
-購物車以 `$_SESSION['cart']` 儲存（**不可使用 cookie**），格式如下：
+每頁開首以 `include 'includes/session.php';` 啟動 session（**不可直接使用 `session_start()`**）。此檔案已停用 cookie，PHP 會自動於所有連結及表單加上 session ID，因此毋須自行加入 session ID 的隱藏欄位。以 `header('Location: ...')` 轉頁時，須寫成 `header('Location: cart.php?' . SID);`。
+
+PHP 部分的詳細設計見 [docs/php-plan.md](docs/php-plan.md)。
+
+購物車以 `$_SESSION['cart']` 儲存，格式如下：
 
 ```php
 $_SESSION['cart']['P101'] = [
@@ -58,11 +62,12 @@ $_SESSION['cart']['P101'] = [
 - [ ] **A**：設計標誌（logo），儲存為 `images/logo.png`；以自己的文字改寫介紹內容（上限 600 字）
 - [ ] **B**：編寫 `css/style.css`（所需的 class 名稱已列於檔案開首）
 - [ ] **C**：編寫 `js/validation.js`（檢查數量；購物車頁更改數量時，以 `data-price` 即時更新 `subtotal-產品編號` 及 `cart-total`；按 Buy 前檢查顧客資料）
-- [ ] **D**：編寫 `add_to_cart.php` 及 `remove_from_cart.php`（接收 `remove_id`）；`update_cart.php` 現時未有使用
-- [ ] **E**：於 `thankyou.php` 先按 `$_POST['quantity']` 更新數量，再將訂單寫入 `orders` 及 `order_details`
-- [ ] **E 及 C**：於購物車頁加入顧客姓名及地址欄位（`orders` table 需要此資料）
+- [x] **PHP**：編寫 `add_to_cart.php` 及 `remove_from_cart.php`；`update_cart.php` 現時未有使用
+- [x] **PHP**：於 `thankyou.php` 先按 `$_POST['quantity']` 更新數量，再將訂單寫入 `orders` 及 `order_details`
+- [x] **PHP**：於購物車頁加入顧客姓名及地址欄位（`orders` table 需要此資料）
 - [ ] **B、C 及 D**：考慮從 `products` table 讀取產品，再以 PHP `foreach` 輸出產品卡，避免 15 張產品卡的程式碼重複（影響 Readability 分數）
-- [ ] **全組**：完成「不使用 cookie」的設定。現時表單已附上 session ID，但 `session_start()` 預設仍會使用 cookie，而導覽列連結亦未有附上 session ID
+- [x] **PHP**：完成「不使用 cookie」的設定（`includes/session.php`）
+- [ ] **B**：為新增的 `cart-message`（提示訊息）及 `customer-details`（顧客資料欄位）加入 CSS
 - [ ] 縮小 `images/p202.jpg`（3284×1736 px，檔案過大）
 
 ## 提交功課（由組長負責）

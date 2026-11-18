@@ -103,3 +103,17 @@
 - Remove 按鈕加入 `formnovalidate`，即使數量欄位未填妥亦可移除產品
 
 `page6.html` 及圖片沒有修改。`remove_from_cart.php`、`update_cart.php` 及 `thankyou.php` 的 TODO 註解已按新的購物車表單更新。
+
+## PHP 功能（2026 年 11 月 18 日）
+
+按 [docs/php-plan.md](docs/php-plan.md) 完成 PHP 部分：
+
+| 檔案 | 修改 |
+|---|---|
+| `includes/session.php`（新增） | 停用 cookie，並以 `trans_sid` 自動於連結及表單加上 session ID；所有頁面改為 include 此檔案 |
+| `add_to_cart.php` | 從資料庫讀取產品名稱及價錢，檢查數量及存貨，加入或累加至購物車 |
+| `remove_from_cart.php` | 按 `remove_id` 移除產品 |
+| `cart.php` | 顯示提示訊息；加入顧客姓名及地址欄位 |
+| `thankyou.php` | 檢查資料後，以 transaction 及 prepared statement 將訂單寫入 `orders` 及 `order_details`，並顯示訂單編號（例如 `TN-000001`） |
+| `shop1/2/3.php`、`cart.php` | 刪除人手加入的 session ID 隱藏欄位，因為 `session.php` 已自動加入，保留會出現重複 |
+| `update_cart.php` | 轉頁時加上 `SID` |
