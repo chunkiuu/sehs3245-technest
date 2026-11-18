@@ -1,5 +1,6 @@
 /*
- * 檔案：js/validation.js
- * 負責：JS 組員
+ * File:    js/validation.js
+ * Author:  LIN Zixi
+ *
  * 此部分尚未完成。
  */
