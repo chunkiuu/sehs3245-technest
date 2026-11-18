@@ -1,7 +1,7 @@
 <?php
 /*
  * File: shop1.php
- * Owner: HTML
+ * Author: KU Ho Tin
  * Page 2: Shopping page - Smartphones & Wearables (5 products).
  */
 include 'includes/session.php';

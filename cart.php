@@ -1,28 +1,32 @@
 <?php
 /*
- * File: cart.php
- * Owner: HTML (page layout) + PHP (cart logic)
- * Page 5: Shopping cart. Lists the products stored in $_SESSION['cart'].
- * The table and the Buy button are wrapped in a single form, so the latest
- * quantities are sent to place_order.php when the user clicks "Buy".
+ * File:    cart.php
+ * Author:  KU Ho Tin (HTML page layout), Chow Chun Kiu (PHP cart logic)
+ * Purpose: Page 5, the shopping cart. Lists the products stored in $_SESSION['cart']
+ *          with their subtotals and the total, and asks for the customer's details.
+ * Output:  the table and the Buy button are in one form, so clicking "Buy" sends the
+ *          latest quantities and the customer details to place_order.php.
  *
- * $_SESSION['cart'] format (written in add_to_cart.php):
+ * $_SESSION['cart'] format (created in add_to_cart.php):
  *   $_SESSION['cart'][101] = ['product_id' => 101, 'product_name' => 'Nova X1 Smartphone',
- *                                'unit_price' => 4999.00, 'quantity' => 2];
+ *                             'unit_price' => 4999.00, 'quantity' => 2];
  */
-// Start session tracking.
+// Start session tracking (without cookies) and show the shared page header
 include 'includes/session.php';
 $pageTitle = 'Shopping Cart';
 include 'includes/header.php';
 
+// The products in the cart (an empty array if nothing has been added yet)
 $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
 $total = 0;
 
-// A message from add_to_cart.php, remove_from_cart.php or place_order.php (shown once, then deleted)
+// A message from add_to_cart.php, remove_from_cart.php or place_order.php.
+// It is deleted after reading, so it is shown only once.
 $message = isset($_SESSION['cart_message']) ? $_SESSION['cart_message'] : '';
 unset($_SESSION['cart_message']);
 
-// Customer details typed before, so the user does not need to type them again after an error
+// Customer details typed before (saved by place_order.php), so the user
+// does not need to type them again after an error
 $customerName = isset($_SESSION['customer']['name']) ? $_SESSION['customer']['name'] : '';
 $address      = isset($_SESSION['customer']['address']) ? $_SESSION['customer']['address'] : '';
 ?>
@@ -30,7 +34,10 @@ $address      = isset($_SESSION['customer']['address']) ? $_SESSION['customer'][
     <main>
         <h1>Your Shopping Cart</h1>
 
-<?php if ($message !== '') { ?>
+<?php
+// htmlspecialchars() turns characters such as < and > into safe text, so user input
+// or product names can never run as HTML or JavaScript on the page (prevents XSS)
+if ($message !== '') { ?>
         <p class="cart-message"><?php echo htmlspecialchars($message); ?></p>
 <?php } ?>
 
@@ -58,6 +65,7 @@ $address      = isset($_SESSION['customer']['address']) ? $_SESSION['customer'][
                 </thead>
                 <tbody>
 <?php
+    // One table row per product: subtotal = unit price x quantity, and add it to the total
     foreach ($cart as $item) {
         $id = htmlspecialchars($item['product_id']);
         $subtotal = $item['unit_price'] * $item['quantity'];
