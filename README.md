@@ -38,7 +38,7 @@
 | HTML 頁面（6 頁） | ✅ 已完成 |
 | PHP（購物車、不使用 cookie 的 session、儲存訂單、訂單摘要） | ✅ 已完成 |
 | SQL 資料庫 | ✅ 已完成 |
-| Logo（`images/logo.png`） | ⬜ 尚未完成 |
+| Logo（`images/logo.png`） | ✅ 已完成 |
 | CSS（`css/style.css`） | 🔶 進行中：購物頁、購物車已完成；頁首、導覽列、頁尾及感謝頁訂單摘要尚未加入樣式 |
 | JavaScript（`js/validation.js`） | ⬜ 尚未完成 |
 
