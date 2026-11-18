@@ -23,7 +23,15 @@ $orderId = $_SESSION['last_order_id'];
 //    The ? placeholder (prepared statement) prevents SQL injection.
 $orderStmt = $pdo->prepare('SELECT customer_name, address, total_amount, order_date FROM orders WHERE order_id = ?');
 $orderStmt->execute([$orderId]);
-$order = $orderStmt->fetch(PDO::FETCH_ASSOC);
+$order = $orderStmt->fetch(PDO::FETCH_ASSOC);   // one row as an array, or false if not found
+
+// The order no longer exists (e.g. the database was imported again):
+// forget it and go back to the cart instead of showing PHP warnings
+if (!$order) {
+    unset($_SESSION['last_order_id']);
+    header('Location: cart.php?' . SID);
+    exit;
+}
 
 // 2. Load the products in the order from order_details.
 //    order_details only stores the product ID, so JOIN with products to get each product's name.
