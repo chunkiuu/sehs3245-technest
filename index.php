@@ -9,6 +9,7 @@ $pageTitle = 'Introduction';
 include 'includes/header.php';
 ?>
 
+    <!-- Main Content: Introduction Section -->
     <main>
         <section id="introduction" class="introduction-section">
             <h1>Welcome to TechNest</h1>
@@ -42,6 +43,7 @@ include 'includes/header.php';
                 Thank you for visiting TechNest. We invite you to browse our product categories, compare available options, and find technology that fits your lifestyle. Whether you are upgrading personal devices, setting up a home office, or searching for a thoughtful gift, we hope TechNest can be your reliable online electronics shop. Start exploring today and discover practical technology chosen with you in mind.
             </p>
 
+            <!-- Call to Action Buttons -->
             <div class="hero-actions">
                 <a href="shop1.php" class="button">Shop Smartphones &amp; Wearables</a>
                 <a href="shop2.php" class="button">Shop Computers &amp; Displays</a>

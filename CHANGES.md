@@ -82,3 +82,24 @@
 | `js/validation.js` | JavaScript（空白，附 TODO） | C |
 | `README.md` | 設定步驟、分工及守則 | — |
 | `.gitignore` | 避免上載 `.DS_Store`、zip 等檔案 | — |
+
+## 組員更新（2026 年 11 月 17 日）
+
+一位組員以舊版 `page1.html` 至 `page5.html` 作出修改，現已併入 repo 的對應檔案：
+
+| 修改 | 併入的檔案 |
+|---|---|
+| 新增英文註解（例如 `Product 1: Nova X1`、`Header Section`、`Footer Section`） | `index.php`、`shop1/2/3.php`、`includes/header.php`、`includes/footer.php` |
+| 產品圖片尺寸統一為 220×220，並加入 `class="product-image"` | `shop1/2/3.php` |
+| 每個 Add to Cart 表單加入隱藏欄位，傳送 session ID（不使用 cookie） | `shop1/2/3.php` |
+| 購物車改為單一表單：可直接更改數量，Remove 以 `formaction` 送往 `remove_from_cart.php`，並加入供 JavaScript 即時計算的 `data-price` 及 `<span id>` | `cart.php` |
+
+為配合 repo 現有設計，作出以下調整：
+
+- 保留 `include` 共用 header 及 footer，不採用各頁重複的 header
+- 連結繼續使用 `index.php`，不使用 `intro.php`
+- Buy 按鈕送往 `thankyou.php`，不使用 `checkout.php`
+- 小計以 `unit_price × quantity` 即時計算，不使用 `$item['subtotal']`，以配合 README 所列的 session 格式
+- Remove 按鈕加入 `formnovalidate`，即使數量欄位未填妥亦可移除產品
+
+`page6.html` 及圖片沒有修改。`remove_from_cart.php`、`update_cart.php` 及 `thankyou.php` 的 TODO 註解已按新的購物車表單更新。

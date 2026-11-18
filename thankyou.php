@@ -8,6 +8,8 @@
 session_start();
 
 // TODO (E): if the cart is not empty:
+//   0. update each item's quantity from $_POST['quantity'] (array: product_id => quantity,
+//      sent by the Buy button in cart.php); check each value is a whole number >= 1
 //   1. include 'includes/db.php';
 //   2. INSERT one row into orders, get the new id with $pdo->lastInsertId()
 //   3. INSERT one row into order_details for each item in $_SESSION['cart']

@@ -17,6 +17,7 @@
     <script src="js/validation.js" defer="defer"></script>
 </head>
 <body>
+    <!-- Header Section: Logo and Main Navigation -->
     <header class="site-header">
         <a href="index.php" class="logo-link">
             <img src="images/logo.png" alt="TechNest Online Shop logo" class="logo" width="140" height="70" />

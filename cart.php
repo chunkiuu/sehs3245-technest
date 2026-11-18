@@ -2,13 +2,15 @@
 /*
  * File: cart.php
  * Owner: E
- * Page 5: Shopping cart. Lists the products stored in $_SESSION['cart'],
- * lets the user update or remove them, and has a "Buy" button.
+ * Page 5: Shopping cart. Lists the products stored in $_SESSION['cart'].
+ * The table and the Buy button are wrapped in a single form, so the latest
+ * quantities are sent to thankyou.php when the user clicks "Buy".
  *
  * $_SESSION['cart'] format (written by D in add_to_cart.php):
  *   $_SESSION['cart']['P101'] = ['product_id' => 'P101', 'product_name' => 'Nova X1 Smartphone',
  *                                'unit_price' => 4999.00, 'quantity' => 2];
  */
+// Start session tracking.
 session_start();
 $pageTitle = 'Shopping Cart';
 include 'includes/header.php';
@@ -26,66 +28,81 @@ $total = 0;
             <a href="shop1.php">Continue shopping</a>.
         </p>
 <?php } else { ?>
-        <table class="cart-table">
-            <thead>
-                <tr>
-                    <th scope="col">Product / Service Plan</th>
-                    <th scope="col">Unit Price</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Subtotal</th>
-                    <th scope="col">Action</th>
-                </tr>
-            </thead>
-            <tbody>
+        <!--
+            Wrap the table and Buy button in a single form.
+            When the user clicks "Buy", the latest quantities will be sent to thankyou.php.
+        -->
+        <form action="thankyou.php" method="post" id="checkout-form">
+            <!-- Hidden input for session ID (No cookies allowed) -->
+            <input type="hidden" name="<?php echo session_name(); ?>" value="<?php echo session_id(); ?>" />
+
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Product / Service Plan</th>
+                        <th scope="col">Unit Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Subtotal</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
 <?php
     foreach ($cart as $item) {
         $id = htmlspecialchars($item['product_id']);
         $subtotal = $item['unit_price'] * $item['quantity'];
         $total += $subtotal;
 ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($item['product_name']); ?></td>
-                    <td>HK$<?php echo number_format($item['unit_price'], 2); ?></td>
-                    <td>
-                        <form action="update_cart.php" method="post" class="update-cart-form">
-                            <input type="hidden" name="product_id" value="<?php echo $id; ?>" />
-                            <label for="update-qty-<?php echo $id; ?>">Qty:</label>
-                            <input type="number" id="update-qty-<?php echo $id; ?>" name="quantity" class="qty-input" min="1" step="1" value="<?php echo (int)$item['quantity']; ?>" required="required" />
-                            <button type="submit" class="button small-button">Update</button>
-                        </form>
-                    </td>
-                    <td>HK$<?php echo number_format($subtotal, 2); ?></td>
-                    <td>
-                        <form action="remove_from_cart.php" method="post" class="remove-cart-form">
-                            <input type="hidden" name="product_id" value="<?php echo $id; ?>" />
-                            <button type="submit" class="button small-button remove-button">Remove</button>
-                        </form>
-                    </td>
-                </tr>
+                    <tr>
+                        <td><?php echo htmlspecialchars($item['product_name']); ?></td>
+                        <td>HK$<?php echo number_format($item['unit_price'], 2); ?></td>
+                        <td>
+                            <label for="qty-<?php echo $id; ?>">Qty:</label>
+                            <!--
+                                name="quantity[product_id]" allows PHP to receive an array of quantities.
+                                data-price is used for JavaScript to know the unit price.
+                            -->
+                            <input type="number"
+                                   id="qty-<?php echo $id; ?>"
+                                   name="quantity[<?php echo $id; ?>]"
+                                   class="qty-input real-time-qty"
+                                   min="1"
+                                   step="1"
+                                   value="<?php echo (int)$item['quantity']; ?>"
+                                   data-price="<?php echo $item['unit_price']; ?>"
+                                   required="required" />
+                        </td>
+                        <!-- Span IDs are used by JavaScript to update the subtotal dynamically -->
+                        <td>HK$<span id="subtotal-<?php echo $id; ?>" class="subtotal-text"><?php echo number_format($subtotal, 2); ?></span></td>
+                        <td>
+                            <!-- formaction overrides the main form action to go to remove_from_cart.php -->
+                            <button type="submit" formaction="remove_from_cart.php" formnovalidate="formnovalidate" name="remove_id" value="<?php echo $id; ?>" class="button small-button remove-button">Remove</button>
+                        </td>
+                    </tr>
 <?php } ?>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <th scope="row" colspan="3">Total</th>
-                    <td>HK$<?php echo number_format($total, 2); ?></td>
-                    <td></td>
-                </tr>
-            </tfoot>
-        </table>
-<?php } ?>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th scope="row" colspan="3">Total</th>
+                        <!-- Span ID used by JavaScript to update the grand total dynamically -->
+                        <td>HK$<span id="cart-total" class="total-text"><?php echo number_format($total, 2); ?></span></td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
 
-        <div class="cart-actions">
-            <a href="shop1.php" class="button">Shop Smartphones &amp; Wearables</a>
-            <a href="shop2.php" class="button">Shop Computers &amp; Displays</a>
-            <a href="shop3.php" class="button">Shop Accessories &amp; Smart Home</a>
-
-<?php if (!empty($cart)) { ?>
             <!-- TODO (E + C): add customer name / address fields here; orders table needs them -->
-            <form action="thankyou.php" method="post" class="buy-form">
+
+            <div class="cart-actions">
+                <a href="shop1.php" class="button">Shop Smartphones &amp; Wearables</a>
+                <a href="shop2.php" class="button">Shop Computers &amp; Displays</a>
+                <a href="shop3.php" class="button">Shop Accessories &amp; Smart Home</a>
+
+                <!-- Buy Button submits the whole form to thankyou.php -->
                 <button type="submit" class="button buy-button">Buy</button>
-            </form>
+            </div>
+        </form>
 <?php } ?>
-        </div>
     </main>
 
 <?php include 'includes/footer.php'; ?>

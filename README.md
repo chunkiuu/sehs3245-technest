@@ -31,6 +31,7 @@
 3. Commit message 須清楚說明修改內容，例如 `B: add hover effect to product cards`
 4. 如需修改共用檔案（`header.php`、`footer.php`、`style.css`、`db.php`），**須先於群組通知其他組員**
 5. **請勿上載 zip 檔**，所有檔案應直接放入 repo
+6. **請直接修改 repo 內的檔案**（例如 `shop1.php`），切勿修改舊版 `page1.html` 至 `page6.html`
 
 如修改了 `sql/shop.sql`，須於群組通知所有組員重新 Import 一次。
 
@@ -38,7 +39,7 @@
 
 ```
 index.php → shop1/2/3.php → add_to_cart.php → cart.php → thankyou.php（存入 MySQL）
-                                ↑ update_cart.php / remove_from_cart.php
+                                ↑ remove_from_cart.php（Remove 按鈕）
 ```
 
 購物車以 `$_SESSION['cart']` 儲存（**不可使用 cookie**），格式如下：
@@ -56,11 +57,12 @@ $_SESSION['cart']['P101'] = [
 
 - [ ] **A**：設計標誌（logo），儲存為 `images/logo.png`；以自己的文字改寫介紹內容（上限 600 字）
 - [ ] **B**：編寫 `css/style.css`（所需的 class 名稱已列於檔案開首）
-- [ ] **C**：編寫 `js/validation.js`（檢查數量、即時計算小計、按 Buy 前檢查顧客資料）
-- [ ] **D**：編寫 `add_to_cart.php`、`update_cart.php` 及 `remove_from_cart.php`
-- [ ] **E**：於 `thankyou.php` 將訂單寫入 `orders` 及 `order_details`
+- [ ] **C**：編寫 `js/validation.js`（檢查數量；購物車頁更改數量時，以 `data-price` 即時更新 `subtotal-產品編號` 及 `cart-total`；按 Buy 前檢查顧客資料）
+- [ ] **D**：編寫 `add_to_cart.php` 及 `remove_from_cart.php`（接收 `remove_id`）；`update_cart.php` 現時未有使用
+- [ ] **E**：於 `thankyou.php` 先按 `$_POST['quantity']` 更新數量，再將訂單寫入 `orders` 及 `order_details`
 - [ ] **E 及 C**：於購物車頁加入顧客姓名及地址欄位（`orders` table 需要此資料）
 - [ ] **B、C 及 D**：考慮從 `products` table 讀取產品，再以 PHP `foreach` 輸出產品卡，避免 15 張產品卡的程式碼重複（影響 Readability 分數）
+- [ ] **全組**：完成「不使用 cookie」的設定。現時表單已附上 session ID，但 `session_start()` 預設仍會使用 cookie，而導覽列連結亦未有附上 session ID
 - [ ] 縮小 `images/p202.jpg`（3284×1736 px，檔案過大）
 
 ## 提交功課（由組長負責）
