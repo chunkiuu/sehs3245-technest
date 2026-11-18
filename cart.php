@@ -7,7 +7,7 @@
  * quantities are sent to place_order.php when the user clicks "Buy".
  *
  * $_SESSION['cart'] format (written in add_to_cart.php):
- *   $_SESSION['cart']['P101'] = ['product_id' => 'P101', 'product_name' => 'Nova X1 Smartphone',
+ *   $_SESSION['cart'][101] = ['product_id' => 101, 'product_name' => 'Nova X1 Smartphone',
  *                                'unit_price' => 4999.00, 'quantity' => 2];
  */
 // Start session tracking.

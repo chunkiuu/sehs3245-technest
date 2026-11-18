@@ -12,6 +12,7 @@
    - Mac：`/Applications/XAMPP/xamppfiles/htdocs`
 3. 開啟 XAMPP，啟動（Start）**Apache** 及 **MySQL**
 4. 開啟 <http://localhost/phpmyadmin> → Import → 選取 `sql/shop.sql` → Go
+   - 如之前已匯入過，須先刪除舊資料庫：左邊點選 `shop_db` → Operations → Drop the database → OK，然後再 Import
 5. 於瀏覽器開啟 <http://localhost/technest/>
 
 ## 分工（每位組員負責一種語言）
@@ -35,7 +36,7 @@
 5. **請勿上載 zip 檔**，所有檔案應直接放入 repo
 6. **請直接修改 repo 內的檔案**（例如 `shop1.php`），切勿修改舊版 `page1.html` 至 `page6.html`
 
-如修改了 `sql/shop.sql`，須於群組通知所有組員重新 Import 一次。
+如修改了 `sql/shop.sql`，須於群組通知所有組員先刪除 `shop_db`，再重新 Import 一次。
 
 ## 頁面流程
 
@@ -51,8 +52,8 @@ PHP 部分的詳細設計見 [docs/php-plan.md](docs/php-plan.md)。
 購物車以 `$_SESSION['cart']` 儲存，格式如下：
 
 ```php
-$_SESSION['cart']['P101'] = [
-    'product_id'   => 'P101',
+$_SESSION['cart'][101] = [
+    'product_id'   => 101,
     'product_name' => 'Nova X1 Smartphone',
     'unit_price'   => 4999.00,
     'quantity'     => 2,

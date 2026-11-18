@@ -54,8 +54,8 @@ PHP 預設會把 session ID 存放於 cookie（`PHPSESSID`）。為符合「不�
 購物車格式：
 
 ```php
-$_SESSION['cart']['P101'] = [
-    'product_id'   => 'P101',
+$_SESSION['cart'][101] = [
+    'product_id'   => 101,
     'product_name' => 'Nova X1 Smartphone',
     'unit_price'   => 4999.00,
     'quantity'     => 2,

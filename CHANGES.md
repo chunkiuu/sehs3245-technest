@@ -58,15 +58,13 @@
 - 加入 TODO 註解，說明將訂單寫入資料庫的步驟
 
 ### `sql/shop.sql`（原 `shop.SQL`）
-- 15 件產品改為 HTML 的產品資料（英文，ID 採用 `P101` 格式），價錢及存貨與 HTML 一致
-- `product_id` 由 `INT AUTO_INCREMENT` 改為 `VARCHAR(10)`，使其與 HTML 的 ID 相同
-- `products` 新增 `category` 欄位，記錄產品所屬頁面
-- `order_details.product_id` 亦改為 `VARCHAR(10)`，使 foreign key 能夠對應
-- 加入 `DROP DATABASE IF EXISTS`，確保每次重新匯入後全組的資料庫內容一致（只影響個人電腦）
-- 加入 `CHARACTER SET utf8mb4`
-- 修正 `--default` 的語法錯誤
-- 註解改以英文撰寫
-- **保留**：三個 table 的設計（`products`、`orders`、`order_details`）、所有 `CHECK` 限制、foreign key 及原作者姓名
+- **資料庫結構與原作者版本完全相同**（三個 table 的欄位、類型、`CHECK` 限制、foreign key 及中文註解均沒有修改）
+- 只修改了兩處：
+  1. 第 13 行 `--default` 改為 `-- default`（加一個空格）。MySQL 規定 `--` 後必須有空格才算註解，否則匯入時會出錯
+  2. 產品資料（第 35 至 54 行）：15 件產品改為 HTML 的產品資料，並指定 `product_id`（101 至 305），使其與購物頁的產品編號相同
+- 檔案仍使用原有的 Windows 換行格式（CRLF）
+
+註：較早的版本曾修改資料庫結構（`product_id` 改為 `VARCHAR`、新增 `category` 欄位等）。其後檢討認為這些修改並非必要，已於 2026 年 11 月 18 日還原，詳見文末。
 
 ### 圖片
 - 15 張產品圖片**完全沒有修改**
@@ -128,3 +126,12 @@
 - `thankyou.php` 改為只負責顯示：以 `SELECT ... JOIN` 從 MySQL 讀出訂單，顯示顧客姓名、下單時間、送貨地址、每件產品及總額
 - 採用 Post/Redirect/Get，重新整理感謝頁不會重複下單
 - 感謝頁只顯示該顧客 session 內的訂單，他人無法透過網址查看
+
+## 還原 SQL 結構（2026 年 11 月 18 日）
+
+原作者的資料庫結構已完全還原，只保留必要的修改（第 13 行加一個空格，以及產品資料）。
+
+- 產品編號由 `P101` 格式改為數字 `101`（配合原有的 `product_id INT`），已更新 `shop1/2/3.php` 內的 `value`、`data-product-id` 及 `id`
+- 移除較早加入的 `category` 欄位、`DROP DATABASE IF EXISTS` 及 `utf8mb4` 設定（XAMPP 的 MariaDB 預設已使用 utf8mb4）
+- 註解還原為原作者的中文註解
+- 因原有檔案使用 `CREATE DATABASE IF NOT EXISTS`，**重新匯入前須先於 phpMyAdmin 刪除 `shop_db`**，否則會出現「table already exists」錯誤
