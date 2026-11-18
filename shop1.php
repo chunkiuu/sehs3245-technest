@@ -1,10 +1,15 @@
 <?php
 /*
  * File: shop1.php
- * Author: KU Ho Tin
+ * Author: KU Ho Tin (HTML page layout), Chow Chun Kiu (PHP: stock loaded from the database)
  * Page 2: Shopping page - Smartphones & Wearables (5 products).
  */
 include 'includes/session.php';
+include 'includes/db.php';
+
+// Load the current stock of every product from the database, e.g. $stock[101] = 50.
+// The stock goes down after each order (place_order.php), so the page always shows the real amount.
+$stock = $pdo->query('SELECT product_id, stock FROM products')->fetchAll(PDO::FETCH_KEY_PAIR);
 $pageTitle = 'Smartphones & Wearables';
 include 'includes/header.php';
 ?>
@@ -21,11 +26,11 @@ include 'includes/header.php';
                 <h2>Nova X1 Smartphone</h2>
                 <p>6.5-inch display, 128 GB storage, 5G network support.</p>
                 <p class="price">Unit price: HK$4,999.00</p>
-                <p class="stock">Available quantity: 50</p>
+                <p class="stock">Available quantity: <?php echo $stock[101]; ?></p>
                 <form class="add-to-cart-form" action="add_to_cart.php" method="post">
                     <input type="hidden" name="product_id" value="101" />
                     <label for="qty-101">Quantity:</label>
-                    <input type="number" id="qty-101" name="quantity" class="qty-input" min="1" max="50" step="1" value="1" required="required" />
+                    <input type="number" id="qty-101" name="quantity" class="qty-input" min="1" max="<?php echo $stock[101]; ?>" step="1" value="1" required="required" />
                     <button type="submit" class="button add-cart-button">Add to Cart</button>
                 </form>
             </article>
@@ -36,11 +41,11 @@ include 'includes/header.php';
                 <h2>Nova X2 Pro Smartphone</h2>
                 <p>6.8-inch AMOLED display, 256 GB storage, triple camera.</p>
                 <p class="price">Unit price: HK$6,999.00</p>
-                <p class="stock">Available quantity: 30</p>
+                <p class="stock">Available quantity: <?php echo $stock[102]; ?></p>
                 <form class="add-to-cart-form" action="add_to_cart.php" method="post">
                     <input type="hidden" name="product_id" value="102" />
                     <label for="qty-102">Quantity:</label>
-                    <input type="number" id="qty-102" name="quantity" class="qty-input" min="1" max="30" step="1" value="1" required="required" />
+                    <input type="number" id="qty-102" name="quantity" class="qty-input" min="1" max="<?php echo $stock[102]; ?>" step="1" value="1" required="required" />
                     <button type="submit" class="button add-cart-button">Add to Cart</button>
                 </form>
             </article>
@@ -51,11 +56,11 @@ include 'includes/header.php';
                 <h2>Pulse S Smartwatch</h2>
                 <p>Heart-rate monitoring, GPS, 7-day battery life.</p>
                 <p class="price">Unit price: HK$1,899.00</p>
-                <p class="stock">Available quantity: 80</p>
+                <p class="stock">Available quantity: <?php echo $stock[103]; ?></p>
                 <form class="add-to-cart-form" action="add_to_cart.php" method="post">
                     <input type="hidden" name="product_id" value="103" />
                     <label for="qty-103">Quantity:</label>
-                    <input type="number" id="qty-103" name="quantity" class="qty-input" min="1" max="80" step="1" value="1" required="required" />
+                    <input type="number" id="qty-103" name="quantity" class="qty-input" min="1" max="<?php echo $stock[103]; ?>" step="1" value="1" required="required" />
                     <button type="submit" class="button add-cart-button">Add to Cart</button>
                 </form>
             </article>
@@ -66,11 +71,11 @@ include 'includes/header.php';
                 <h2>FitBand 5</h2>
                 <p>Fitness tracking, sleep monitoring, water resistant.</p>
                 <p class="price">Unit price: HK$599.00</p>
-                <p class="stock">Available quantity: 120</p>
+                <p class="stock">Available quantity: <?php echo $stock[104]; ?></p>
                 <form class="add-to-cart-form" action="add_to_cart.php" method="post">
                     <input type="hidden" name="product_id" value="104" />
                     <label for="qty-104">Quantity:</label>
-                    <input type="number" id="qty-104" name="quantity" class="qty-input" min="1" max="120" step="1" value="1" required="required" />
+                    <input type="number" id="qty-104" name="quantity" class="qty-input" min="1" max="<?php echo $stock[104]; ?>" step="1" value="1" required="required" />
                     <button type="submit" class="button add-cart-button">Add to Cart</button>
                 </form>
             </article>
@@ -81,11 +86,11 @@ include 'includes/header.php';
                 <h2>AirBuds Pro</h2>
                 <p>Wireless earphones with active noise cancellation.</p>
                 <p class="price">Unit price: HK$899.00</p>
-                <p class="stock">Available quantity: 100</p>
+                <p class="stock">Available quantity: <?php echo $stock[105]; ?></p>
                 <form class="add-to-cart-form" action="add_to_cart.php" method="post">
                     <input type="hidden" name="product_id" value="105" />
                     <label for="qty-105">Quantity:</label>
-                    <input type="number" id="qty-105" name="quantity" class="qty-input" min="1" max="100" step="1" value="1" required="required" />
+                    <input type="number" id="qty-105" name="quantity" class="qty-input" min="1" max="<?php echo $stock[105]; ?>" step="1" value="1" required="required" />
                     <button type="submit" class="button add-cart-button">Add to Cart</button>
                 </form>
             </article>
