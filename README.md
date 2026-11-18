@@ -2,6 +2,15 @@
 
 線上電子產品商店，使用 HTML5、CSS3、JavaScript、PHP 及 MySQL 製作，於 XAMPP 上執行。
 
+## 加入 GitHub 專案
+
+組長已將各位加入本專案（Collaborators），請盡快接受邀請：
+
+1. 打開 GitHub 寄來的邀請電郵，按 **View invitation** → **Accept invitation**
+   - 找不到電郵（可能在垃圾郵件內）：登入 GitHub 後，直接開啟 <https://github.com/chunkiuu/sehs3245-technest/invitations>
+2. 邀請 **7 天後會失效**，失效後請通知組長重新邀請
+3. 接受後即可在 GitHub 網頁或 GitHub Desktop 修改檔案
+
 ## 首次設定
 
 1. 安裝 **XAMPP**，並啟動 **Apache** 及 **MySQL**
