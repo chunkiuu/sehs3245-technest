@@ -1,3 +1,10 @@
+/*
+ * File:    css/style.css
+ * Author:  SONG Guoqing
+ * Purpose: Shared stylesheet for every page of the TechNest online shop
+ *          (layout, buttons, product cards, shopping cart and thank-you page).
+ */
+
 /* ---------- Global reset & base ---------- */
 
 /* Remove default browser margins/paddings and keep one box model for all elements */
