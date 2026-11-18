@@ -1,27 +1,32 @@
 <?php
 /*
- * File: thankyou.php
- * Author: KU Ho Tin (HTML page layout), Chow Chun Kiu (PHP and SQL to load the order)
- * Page 6: Thank-you page. Shows a summary of the order just saved by place_order.php.
- * The summary is read back from MySQL, which shows the order really is in the database.
+ * File:    thankyou.php
+ * Author:  KU Ho Tin (HTML page layout), Chow Chun Kiu (PHP and SQL to load the order)
+ * Purpose: Page 6, the thank-you page. Shows a summary of the order just saved by place_order.php.
+ * Input:   $_SESSION['last_order_id'], set by place_order.php after the order is saved
+ *
+ * The summary is read back from MySQL (not from the session), which proves the order
+ * really is stored in the database.
  */
 include 'includes/session.php';
 include 'includes/db.php';
 
-// Only show the order saved in this customer's own session (not an order ID from the URL),
-// so nobody can view another customer's name and address
+// Only show the order saved in this customer's own session (never an order ID from the URL),
+// so nobody can view another customer's name and address. No order yet: go back to the cart.
 if (!isset($_SESSION['last_order_id'])) {
     header('Location: cart.php?' . SID);
     exit;
 }
 $orderId = $_SESSION['last_order_id'];
 
-// 1. Load the order (customer, address, total, date)
+// 1. Load the order itself (customer, address, total, date) from the orders table.
+//    The ? placeholder (prepared statement) prevents SQL injection.
 $orderStmt = $pdo->prepare('SELECT customer_name, address, total_amount, order_date FROM orders WHERE order_id = ?');
 $orderStmt->execute([$orderId]);
 $order = $orderStmt->fetch(PDO::FETCH_ASSOC);
 
-// 2. Load the products in the order. JOIN gets the product name from the products table.
+// 2. Load the products in the order from order_details.
+//    order_details only stores the product ID, so JOIN with products to get each product's name.
 $itemsStmt = $pdo->prepare(
     'SELECT p.product_name, d.price, d.quantity
      FROM order_details d
@@ -32,7 +37,7 @@ $itemsStmt = $pdo->prepare(
 $itemsStmt->execute([$orderId]);
 $items = $itemsStmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Order reference shown to the customer, e.g. TN-000001
+// 3. Order reference shown to the customer: "TN-" + the order ID padded to 6 digits, e.g. TN-000001
 $orderRef = 'TN-' . str_pad($orderId, 6, '0', STR_PAD_LEFT);
 
 $pageTitle = 'Thank You';
