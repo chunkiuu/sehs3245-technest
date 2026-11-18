@@ -6,7 +6,7 @@
  * Input:   POST from the "Buy" button in cart.php:
  *            customer_name, address, and quantity[product_id] for every product in the cart
  * Output:  one new row in the orders table, one row per product in the order_details table,
- *          then a redirect to thankyou.php
+ *          the stock of each product reduced in the products table, then a redirect to thankyou.php
  *
  * Post/Redirect/Get: this file only saves the order and then redirects. The thank-you page is
  * loaded separately, so refreshing it cannot send (and save) the same order a second time.
@@ -63,9 +63,9 @@ if (!empty($errors)) {
     exit;
 }
 
-// 3. Save the order with prepared statements (? placeholders prevent SQL injection).
-//    A transaction treats both INSERTs as one job: commit() saves everything together,
-//    and if any INSERT fails, rollBack() cancels all of them, so no half-saved order is left.
+// 3. Save the order and reduce the stock, using prepared statements (? placeholders prevent SQL injection).
+//    A transaction treats all these SQL statements as one job: commit() saves everything together,
+//    and if anything fails, rollBack() cancels all of them, so no half-saved order is left.
 try {
     $pdo->beginTransaction();
 
@@ -74,16 +74,31 @@ try {
     $orderStmt->execute([$customerName, $address, $total]);
     $orderId = $pdo->lastInsertId();
 
-    // One row in order_details for each product, linked to the order by order_id
+    // For each product: one row in order_details (linked to the order by order_id),
+    // then take the quantity bought away from the stock.
+    // "AND stock >= ?" makes sure the stock never goes below 0: if someone else has just bought
+    // the last units, no row is updated (rowCount() is 0) and the whole order is cancelled.
     $detailStmt = $pdo->prepare('INSERT INTO order_details (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)');
+    $stockStmt  = $pdo->prepare('UPDATE products SET stock = stock - ? WHERE product_id = ? AND stock >= ?');
     foreach ($_SESSION['cart'] as $item) {
         $detailStmt->execute([$orderId, $item['product_id'], $item['quantity'], $item['unit_price']]);
+
+        $stockStmt->execute([$item['quantity'], $item['product_id'], $item['quantity']]);
+        if ($stockStmt->rowCount() === 0) {
+            throw new Exception('Sorry, there is not enough stock of ' . $item['product_name'] . ' left. Please change the quantity.');
+        }
     }
 
     $pdo->commit();
-} catch (PDOException $e) {
+} catch (Exception $e) {
     $pdo->rollBack();
-    $_SESSION['cart_message'] = 'Sorry, your order could not be saved. Please try again.';
+
+    // Show our own stock message; for a database error show a general message instead
+    if ($e instanceof PDOException) {
+        $_SESSION['cart_message'] = 'Sorry, your order could not be saved. Please try again.';
+    } else {
+        $_SESSION['cart_message'] = $e->getMessage();
+    }
     header('Location: cart.php?' . SID);
     exit;
 }
