@@ -49,7 +49,7 @@
 | PHP（購物車、不使用 cookie 的 session、儲存訂單、扣減存貨、訂單摘要） | ✅ 已完成 |
 | SQL 資料庫 | ✅ 已完成 |
 | Logo（`images/logo.png`） | ✅ 已完成 |
-| CSS（`css/style.css`） | 🔶 進行中：購物頁、購物車已完成；頁首、導覽列、頁尾及感謝頁的訂單資料（`order-info`）尚未加入樣式 |
+| CSS（`css/style.css`） | ✅ 已完成（所有頁面，包括響應式設計及動畫） |
 | JavaScript（`js/validation.js`） | ⬜ 尚未完成 |
 
 ## 與組員原稿的差異
