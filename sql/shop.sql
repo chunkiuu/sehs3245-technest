@@ -1,4 +1,4 @@
--- file name: shop.sql
+-- File: shop.sql
 -- Team member: Lo Ching Yu
 -- Description: Establish the database structure and product information table for an online store.
 -- 1. Create a new database if there is no existing shop_db. (name as shop_db)
@@ -10,7 +10,7 @@ CREATE TABLE products (
     product_id INT AUTO_INCREMENT PRIMARY KEY,  -- product_id with auto increment
     product_name VARCHAR(100) NOT NULL,         -- product name
     price DECIMAL(10, 2) NOT NULL,              -- price with 2 dp
-    stock INT NOT NULL DEFAULT 0 CHECK (stock >= 0),  -- default 0 stock with check>=0)
+    stock INT NOT NULL DEFAULT 0 CHECK (stock >= 0),  -- default 0 stock with check>=0
     description TEXT                            -- long description of the product
 );
 -- 4. Create orders table - Master Table (1NF & 2NF)
@@ -31,7 +31,7 @@ CREATE TABLE order_details (
     FOREIGN KEY (order_id) REFERENCES orders(order_id),
     FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
--- 6. Insert testing product information
+-- 6. Insert product information (same products as the shopping pages)
 -- Categories: Smartphones & Wearables, Computers & Displays, Accessories & Smart Home
 INSERT INTO products (product_id, product_name, price, stock, description) VALUES 
 -- 【Category 1: Smartphones & Wearables】
