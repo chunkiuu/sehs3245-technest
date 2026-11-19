@@ -39,7 +39,7 @@
 2. 只修改自己負責的檔案或部分
 3. 修改共用檔案（`header.php`、`footer.php`、`db.php`）前，請先在群組通知
 4. 請直接修改本資料夾內的 `.php` 檔案，不要再修改舊版的 `page1.html` 至 `page6.html`
-5. 修改 `sql/shop.sql` 後，請通知所有組員重新匯入
+5. 修改 `sql/shop.sql` 的資料表或產品資料後，請通知所有組員重新匯入（只修改註解則不需要）
 
 ## 進度
 
@@ -59,9 +59,16 @@
 - 副檔名由 `.html` 改為 `.php`，使 PHP 能夠執行：`page1` → `index.php`、`page2` → `shop1.php`、`page4` → `shop2.php`、`page3` → `shop3.php`、`page5` → `cart.php`、`page6` → `thankyou.php`
 - 各頁重複的 header 及 footer 抽出至 `includes/`，以 `include` 引入
 - 介紹文字、產品內容及圖片沒有修改
-- 購物頁的「Available quantity」及數量上限改為從資料庫讀取，下單後會自動減少（HTML 結構不變）
-- `sql/shop.sql` 的資料庫結構及註解與原稿相同，只修改兩處：第 13 行 `--default` 加一個空格（否則匯入時會出錯），以及更換為購物頁的產品資料（產品編號 101 至 305）
+- 購物頁的「Available quantity」及數量上限、購物車的數量上限，改為從資料庫讀取，下單後會自動減少（HTML 結構不變）
+- `sql/shop.sql` 的資料庫結構與原稿相同，只修改：第 13 行 `--default` 加一個空格（否則匯入時會出錯），以及更換為購物頁的產品資料（產品編號 101 至 305）
+- `sql/shop.sql` 的註解已由 Lo Ching Yu 改為英文，分類名稱亦已改為與網站相同
 
 ## 提交功課（由組長負責）
 
-依照功課指引，最終須提交一個 zip 檔，內含所有程式碼、Word 文件（所有程式碼及 SQL 語句）及每位組員的 `.pptx`，檔名為 `組號_組長姓名.zip`。
+依照功課指引，最終須提交一個 zip 檔，檔名為 `組號_ChowChunKiu.zip`，內含：
+
+- 所有 `.php`、`.css`、`.js` 檔案，以及 `images/` 及 `sql/shop.sql`
+- Word 文件：所有程式碼及 SQL 語句；第一頁頂部列明 SEHS3245、Web Systems and Technologies、提交日期，以及全體組員姓名及學號
+- 每位組員的 `.pptx`，檔名為 `組號_姓名_學號.pptx`，請於限期前交給組長
+
+不需放入 zip：`README.md`、`.gitignore`、`.DS_Store`
