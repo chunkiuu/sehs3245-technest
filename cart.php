@@ -58,6 +58,12 @@ if ($message !== '') { ?>
             When the user clicks "Buy", the latest quantities will be sent to place_order.php.
         -->
         <form action="place_order.php" method="post" id="checkout-form">
+            <!--
+                Hidden default button. Pressing Enter in a box submits the form with its first
+                submit button, so this one comes first: Enter saves the quantities (update_cart.php)
+                instead of using the first row's Remove button.
+            -->
+            <button type="submit" formaction="update_cart.php" formnovalidate="formnovalidate" hidden="hidden">Update cart</button>
 
             <table class="cart-table">
                 <thead>
