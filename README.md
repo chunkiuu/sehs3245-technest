@@ -50,7 +50,114 @@
 | SQL 資料庫 | ✅ 已完成 |
 | Logo（`images/logo.png`） | ✅ 已完成 |
 | CSS（`css/style.css`） | ✅ 已完成（所有頁面，包括響應式設計及動畫） |
-| JavaScript（`js/validation.js`） | ⬜ 尚未完成 |
+| JavaScript（`js/validation.js`） | ⬜ 尚未完成（詳見下面「JavaScript 待辦」） |
+
+## JavaScript 待辦（LIN Zixi）
+
+網站其他部分已經完成，只餘下 JavaScript。以下列出需要完成的工作及建議做法。
+
+### 基本資料
+
+- 只需修改 `js/validation.js`；所有頁面已經透過 `includes/header.php` 以 `<script src="js/validation.js" defer="defer"></script>` 載入
+- 因為使用了 `defer`，script 會在頁面 HTML 讀取完後才執行，可以直接用 `document.querySelector()` 等找元素
+- 同一個檔案會在 6 頁執行，所以每項功能要先檢查該頁有沒有相關元素（例如 `if (form) { ... }`），沒有就略過
+- **請勿修改 HTML、PHP 或 CSS**；如需要新的 `id` 或 `class`，請先通知組長
+- **每段 JavaScript 都要有英文註解**（評分 Readability 要求「Commenting is expected for JavaScript code」）
+- 不可使用 cookie；亦不要用 `localStorage` 保存購物車（購物車由 PHP session 處理）
+- PHP 已在伺服器端再檢查一次所有資料，JavaScript 的作用是讓用戶**即時**看到錯誤及結果，毋須等頁面重新載入
+
+### 可使用的 HTML 元素
+
+| 頁面 | 元素 | 說明 |
+|---|---|---|
+| `shop1/2/3.php` | `form.add-to-cart-form` | 每件產品一個表單，共 5 個 |
+| | `input.qty-input`（例如 `id="qty-101"`） | 數量欄，有 `min="1"` 及 `max="存貨"` |
+| | `article.product-card` | 有 `data-product-id`、`data-product-name`、`data-unit-price` |
+| `cart.php` | `form#checkout-form` | 整個購物車（表格、顧客資料、Buy 按鈕）都在這個表單內 |
+| | `input.real-time-qty`（例如 `id="qty-101"`） | 購物車數量欄，有 `min`、`max`、`data-price`（單價） |
+| | `span#subtotal-101` | 該產品的小計（數字部分，例如 `9,998.00`） |
+| | `span#cart-total` | 總額（數字部分） |
+| | `input#customer-name` | 姓名，最多 50 字 |
+| | `textarea#address` | 地址，最多 255 字 |
+| | `button.buy-button` | Buy 按鈕 |
+| | `button.remove-button` | 每行一個 Remove 按鈕（有 `formnovalidate`，用來移除產品） |
+
+### 任務 1：購物頁按「Add to Cart」前檢查數量
+
+- 數量必須是 **1 至存貨（`max`）之間的整數**；不符合就阻止送出，並顯示英文提示，例如 `Please enter a whole number from 1 to 50.`
+- 建議做法：
+  - 為每個 `.add-to-cart-form` 加上 `submit` 事件
+  - 用 `Number(input.value)` 及 `Number.isInteger()` 檢查，與 `Number(input.max)` 比較
+  - 不符合時：`input.setCustomValidity('提示文字')`、`input.reportValidity()`、`event.preventDefault()`
+  - 在數量欄的 `input` 事件中用 `input.setCustomValidity('')` 清除提示
+  - 好處：使用瀏覽器內置的提示框，**毋須新增 HTML 或 CSS**
+
+### 任務 2：購物車即時計算小計及總額
+
+- 用戶改變數量時，**不用重新載入頁面**，即時更新該行小計及總額
+- 建議做法：
+  - 為每個 `.real-time-qty` 加上 `input` 事件
+  - 產品編號：`input.id.replace('qty-', '')`；單價：`Number(input.dataset.price)`
+  - 小計 = 單價 × 數量，寫入 `document.getElementById('subtotal-' + 編號)`
+  - 總額 = 把所有有效的小計加起來，寫入 `#cart-total`
+  - 數字格式與 PHP 相同：`value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })`（例如 `9998` 顯示為 `9,998.00`）
+  - 數量無效（空白、0、小數、超過存貨）時，該行不計入總額
+
+### 任務 3：按「Buy」前檢查所有資料
+
+- 檢查：
+  - 姓名不可空白（**只輸入空格也算空白**，用 `.trim()`），最多 50 字
+  - 地址不可空白，最多 255 字
+  - 每個數量都是 1 至存貨之間的整數
+- **注意**：Remove 按鈕亦在同一個表單內，**不可以阻止 Remove**。在 `#checkout-form` 的 `submit` 事件中，用 `event.submitter` 判斷是哪個按鈕送出，只有 `event.submitter` 是 `.buy-button` 時才檢查
+- 錯誤提示同樣可用 `setCustomValidity()` 及 `reportValidity()`
+
+### 任務 4：修正購物車 Enter 鍵問題（已發現的 bug）
+
+- **現象**：在購物車的數量欄按 **Enter**，會**移除第一件產品**
+- **原因**：按 Enter 時，瀏覽器會用表單內**第一個** submit 按鈕送出，而第一個 submit 按鈕正是第一行的 Remove
+- 建議做法：在 `.real-time-qty` 的 `keydown` 事件中，如果 `event.key === 'Enter'`，就 `event.preventDefault()`（可同時重新計算小計及總額）
+
+### 建議的檔案結構
+
+```js
+/*
+ * File:        js/validation.js
+ * Team member: LIN Zixi
+ * Purpose:     ...（說明這個檔案做甚麼）
+ */
+
+// Helper: format a number like PHP number_format(), e.g. 9998 -> "9,998.00"
+function formatMoney(value) { ... }
+
+// Helper: is the quantity a whole number between min and max?
+function isValidQuantity(input) { ... }
+
+// Task 1: shopping pages
+function setUpAddToCartForms() { ... }
+
+// Task 2 + 4: shopping cart quantities
+function updateCartTotals() { ... }
+function setUpCartQuantities() { ... }
+
+// Task 3: Buy button
+function setUpCheckoutForm() { ... }
+
+setUpAddToCartForms();
+setUpCartQuantities();
+setUpCheckoutForm();
+```
+
+### 完成後的測試清單
+
+- [ ] 購物頁：數量輸入 0、-1、1.5、空白、超過存貨，按 Add to Cart 時都被阻止並有提示
+- [ ] 購物頁：正常數量可以加入購物車
+- [ ] 購物車：改變數量時，小計及總額即時更新，格式與原本相同（例如 `HK$9,998.00`）
+- [ ] 購物車：姓名或地址留空（或只有空格）時，按 Buy 被阻止並有提示
+- [ ] 購物車：Remove 仍然可以正常移除產品
+- [ ] 購物車：在數量欄按 Enter，不會移除任何產品
+- [ ] 其他頁面（首頁、感謝頁）沒有 JavaScript 錯誤（瀏覽器 Console 沒有紅色錯誤）
+- [ ] 每段 JavaScript 都有英文註解
 
 ## 與組員原稿的差異
 
