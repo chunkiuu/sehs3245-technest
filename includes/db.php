@@ -1,9 +1,9 @@
 <?php
 /*
- * File:    includes/db.php
- * Author:  Chow Chun Kiu
- * Purpose: Connects to the shop_db MySQL database using PDO.
- * Usage:   include 'includes/db.php'; then run SQL with the $pdo object.
+ * File:        includes/db.php
+ * Team member: Chow Chun Kiu
+ * Purpose:     Connects to the shop_db MySQL database using PDO.
+ * Usage:       include 'includes/db.php'; then run SQL with the $pdo object.
  *
  * XAMPP's default MySQL account is user "root" with no password.
  * charset=utf8mb4 lets the database store any text, including Chinese names.

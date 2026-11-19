@@ -1,12 +1,12 @@
 <?php
 /*
- * File:    place_order.php
- * Author:  Chow Chun Kiu
- * Purpose: Checks the order and saves it into MySQL, then shows the thank-you page.
- * Input:   POST from the "Buy" button in cart.php:
- *            customer_name, address, and quantity[product_id] for every product in the cart
- * Output:  one new row in the orders table, one row per product in the order_details table,
- *          the stock of each product reduced in the products table, then a redirect to thankyou.php
+ * File:        place_order.php
+ * Team member: Chow Chun Kiu
+ * Purpose:     Checks the order and saves it into MySQL, then shows the thank-you page.
+ * Input:       POST from the "Buy" button in cart.php:
+ *                customer_name, address, and quantity[product_id] for every product in the cart
+ * Output:      one new row in the orders table, one row per product in the order_details table,
+ *              the stock of each product reduced in the products table, then a redirect to thankyou.php
  *
  * Post/Redirect/Get: this file only saves the order and then redirects. The thank-you page is
  * loaded separately, so refreshing it cannot send (and save) the same order a second time.

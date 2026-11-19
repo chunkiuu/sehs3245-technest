@@ -1,7 +1,7 @@
 <?php
 /*
  * File: shop1.php
- * Author: KU Ho Tin (HTML page layout), Chow Chun Kiu (PHP: stock loaded from the database)
+ * Team member: KU Ho Tin (HTML page layout), Chow Chun Kiu (PHP: stock loaded from the database)
  * Page 2: Shopping page - Smartphones & Wearables (5 products).
  */
 include 'includes/session.php';

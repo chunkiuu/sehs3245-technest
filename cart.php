@@ -1,11 +1,11 @@
 <?php
 /*
- * File:    cart.php
- * Author:  KU Ho Tin (HTML page layout), Chow Chun Kiu (PHP cart logic)
- * Purpose: Page 5, the shopping cart. Lists the products stored in $_SESSION['cart']
- *          with their subtotals and the total, and asks for the customer's details.
- * Output:  the table and the Buy button are in one form, so clicking "Buy" sends the
- *          latest quantities and the customer details to place_order.php.
+ * File:        cart.php
+ * Team member: KU Ho Tin (HTML page layout), Chow Chun Kiu (PHP cart logic)
+ * Purpose:     Page 5, the shopping cart. Lists the products stored in $_SESSION['cart']
+ *              with their subtotals and the total, and asks for the customer's details.
+ * Output:      the table and the Buy button are in one form, so clicking "Buy" sends the
+ *              latest quantities and the customer details to place_order.php.
  *
  * $_SESSION['cart'] format (created in add_to_cart.php):
  *   $_SESSION['cart'][101] = ['product_id' => 101, 'product_name' => 'Nova X1 Smartphone',

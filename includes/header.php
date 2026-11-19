@@ -1,7 +1,7 @@
 <?php
 /*
  * File: includes/header.php
- * Author: KU Ho Tin
+ * Team member: KU Ho Tin
  * Shared page header (logo + navigation) included at the top of every page.
  * Before including this file, the page must include includes/session.php and
  * set $pageTitle, e.g. $pageTitle = 'Shopping Cart';

@@ -1,7 +1,7 @@
 <?php
 /*
  * File: includes/footer.php
- * Author: KU Ho Tin
+ * Team member: KU Ho Tin
  * Shared page footer included at the bottom of every page.
  */
 ?>

@@ -1,10 +1,10 @@
 <?php
 /*
- * File:    remove_from_cart.php
- * Author:  Chow Chun Kiu
- * Purpose: Removes one product from the shopping cart, then goes back to the cart page.
- * Input:   POST remove_id (the product ID), sent by the "Remove" button in cart.php
- * Output:  updates $_SESSION['cart'] and $_SESSION['cart_message'], then redirects to cart.php
+ * File:        remove_from_cart.php
+ * Team member: Chow Chun Kiu
+ * Purpose:     Removes one product from the shopping cart, then goes back to the cart page.
+ * Input:       POST remove_id (the product ID), sent by the "Remove" button in cart.php
+ * Output:      updates $_SESSION['cart'] and $_SESSION['cart_message'], then redirects to cart.php
  */
 include 'includes/session.php';
 

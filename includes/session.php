@@ -1,10 +1,10 @@
 <?php
 /*
- * File:    includes/session.php
- * Author:  Chow Chun Kiu
- * Purpose: Starts the PHP session WITHOUT using cookies (the project does not allow cookies).
- * Usage:   include 'includes/session.php'; at the very top of every page,
- *          before any HTML is sent, instead of calling session_start() directly.
+ * File:        includes/session.php
+ * Team member: Chow Chun Kiu
+ * Purpose:     Starts the PHP session WITHOUT using cookies (the project does not allow cookies).
+ * Usage:       include 'includes/session.php'; at the very top of every page,
+ *              before any HTML is sent, instead of calling session_start() directly.
  *
  * How it works:
  * Normally PHP keeps the session ID in a cookie called PHPSESSID.

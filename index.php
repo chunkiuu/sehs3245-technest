@@ -1,7 +1,7 @@
 <?php
 /*
  * File: index.php
- * Author: KU Ho Tin
+ * Team member: KU Ho Tin
  * Page 1: Introduction to the TechNest online shop (max 600 words).
  */
 include 'includes/session.php';

@@ -1,10 +1,10 @@
 <?php
 /*
- * File:    add_to_cart.php
- * Author:  Chow Chun Kiu
- * Purpose: Adds a product to the shopping cart, then goes to the cart page.
- * Input:   POST product_id and quantity, sent by the "Add to Cart" form on shop1/2/3.php
- * Output:  updates $_SESSION['cart'] and $_SESSION['cart_message'], then redirects to cart.php
+ * File:        add_to_cart.php
+ * Team member: Chow Chun Kiu
+ * Purpose:     Adds a product to the shopping cart, then goes to the cart page.
+ * Input:       POST product_id and quantity, sent by the "Add to Cart" form on shop1/2/3.php
+ * Output:      updates $_SESSION['cart'] and $_SESSION['cart_message'], then redirects to cart.php
  *
  * The cart is stored in the session (no cookies). One entry per product, using the product ID as the key:
  *   $_SESSION['cart'][101] = ['product_id' => 101, 'product_name' => 'Nova X1 Smartphone',

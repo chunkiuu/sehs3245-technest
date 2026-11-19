@@ -1,9 +1,9 @@
 <?php
 /*
- * File:    thankyou.php
- * Author:  KU Ho Tin (HTML page layout), Chow Chun Kiu (PHP and SQL to load the order)
- * Purpose: Page 6, the thank-you page. Shows a summary of the order just saved by place_order.php.
- * Input:   $_SESSION['last_order_id'], set by place_order.php after the order is saved
+ * File:        thankyou.php
+ * Team member: KU Ho Tin (HTML page layout), Chow Chun Kiu (PHP and SQL to load the order)
+ * Purpose:     Page 6, the thank-you page. Shows a summary of the order just saved by place_order.php.
+ * Input:       $_SESSION['last_order_id'], set by place_order.php after the order is saved
  *
  * The summary is read back from MySQL (not from the session), which proves the order
  * really is stored in the database.
