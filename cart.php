@@ -13,12 +13,18 @@
  */
 // Start session tracking (without cookies) and show the shared page header
 include 'includes/session.php';
+include 'includes/db.php';
 $pageTitle = 'Shopping Cart';
 include 'includes/header.php';
 
 // The products in the cart (an empty array if nothing has been added yet)
 $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
 $total = 0;
+
+// The current stock of every product, e.g. $stock[101] = 50.
+// It is used as the max of each quantity box, so the browser stops the user
+// from typing more than the stock before the order is even sent.
+$stock = $pdo->query('SELECT product_id, stock FROM products')->fetchAll(PDO::FETCH_KEY_PAIR);
 
 // A message from add_to_cart.php, remove_from_cart.php or place_order.php.
 // It is deleted after reading, so it is shown only once.
@@ -85,6 +91,7 @@ if ($message !== '') { ?>
                                    name="quantity[<?php echo $id; ?>]"
                                    class="qty-input real-time-qty"
                                    min="1"
+                                   max="<?php echo $stock[$item['product_id']]; ?>"
                                    step="1"
                                    value="<?php echo (int)$item['quantity']; ?>"
                                    data-price="<?php echo $item['unit_price']; ?>"
