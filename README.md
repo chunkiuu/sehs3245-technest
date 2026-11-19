@@ -49,7 +49,7 @@
 | PHP（購物車、不使用 cookie 的 session、儲存訂單、扣減存貨、訂單摘要） | ✅ 已完成 |
 | SQL 資料庫 | ✅ 已完成 |
 | Logo（`images/logo.png`） | ✅ 已完成 |
-| CSS（`css/style.css`） | 🔶 進行中：購物頁、購物車已完成；頁首、導覽列、頁尾及感謝頁訂單摘要尚未加入樣式 |
+| CSS（`css/style.css`） | 🔶 進行中：購物頁、購物車已完成；頁首、導覽列、頁尾及感謝頁的訂單資料（`order-info`）尚未加入樣式 |
 | JavaScript（`js/validation.js`） | ⬜ 尚未完成 |
 
 ## 與組員原稿的差異
@@ -59,9 +59,10 @@
 - 副檔名由 `.html` 改為 `.php`，使 PHP 能夠執行：`page1` → `index.php`、`page2` → `shop1.php`、`page4` → `shop2.php`、`page3` → `shop3.php`、`page5` → `cart.php`、`page6` → `thankyou.php`
 - 各頁重複的 header 及 footer 抽出至 `includes/`，以 `include` 引入
 - 介紹文字、產品內容及圖片沒有修改
+- 感謝頁訊息改為「Your order has been placed successfully. A summary of your order is shown below.」；購物車及感謝頁表格標題由「Product / Service Plan」改為「Product」（本店只售產品，沒有 service plan）
 - 購物頁的「Available quantity」及數量上限、購物車的數量上限，改為從資料庫讀取，下單後會自動減少（HTML 結構不變）
 - `sql/shop.sql` 的資料庫結構與原稿相同，只修改：第 13 行 `--default` 加一個空格（否則匯入時會出錯），以及更換為購物頁的產品資料（產品編號 101 至 305）
-- `sql/shop.sql` 的註解已由 Lo Ching Yu 改為英文，分類名稱亦已改為與網站相同
+- `sql/shop.sql` 的註解已由 Lo Ching Yu 改為英文；其後再修正 8 行註解（分類名稱改為與網站相同等），SQL 語句沒有改動
 
 ## 提交功課（由組長負責）
 
