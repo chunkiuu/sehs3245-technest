@@ -1,3 +1,10 @@
+/*
+ * File:        css/style.css
+ * Team member: SONG Guoqing
+ * Purpose:     Shared stylesheet for every page of the TechNest online shop.
+ */
+
+/* One box model for every element, and no default browser margins */
 * {
     box-sizing: border-box;
     margin: 0;
