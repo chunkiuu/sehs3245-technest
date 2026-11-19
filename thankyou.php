@@ -75,7 +75,7 @@ include 'includes/header.php';
         <table class="cart-table order-summary">
             <thead>
                 <tr>
-                    <th scope="col">Product / Service Plan</th>
+                    <th scope="col">Product</th>
                     <th scope="col">Unit Price</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Subtotal</th>

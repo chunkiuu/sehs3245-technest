@@ -62,7 +62,7 @@ if ($message !== '') { ?>
             <table class="cart-table">
                 <thead>
                     <tr>
-                        <th scope="col">Product / Service Plan</th>
+                        <th scope="col">Product</th>
                         <th scope="col">Unit Price</th>
                         <th scope="col">Quantity</th>
                         <th scope="col">Subtotal</th>
