@@ -1,312 +1,1096 @@
 /*
  * File:        css/style.css
  * Team member: SONG Guoqing
- * Purpose:     Shared stylesheet for every page of the TechNest online shop
- *              (layout, buttons, product cards, shopping cart and thank-you page).
+ * Purpose:     Shared stylesheet for every page of the TechNest online shop.
+ * TechNest redesign for the local preview.
  */
 
-/* ---------- Global reset & base ---------- */
+/* ==========================================================================
+   1. Design tokens
+   All colours, sizes and shadows are defined once here and reused below,
+   so the whole site can be re-themed by changing a single value.
+   ========================================================================== */
+:root {
+    --navy: #0f2a4a;          /* headings, footer, table headers */
+    --blue: #1a66c2;          /* main buttons and links */
+    --blue-dark: #14519a;
+    --blue-soft: #e8f1fc;     /* light blue backgrounds (hover, highlights) */
+    --orange: #e07b0a;        /* decorative accent, matches the logo */
+    --orange-action: #ad4f00;
+    --orange-dark: #8b3e00;
+    --green: #17643a;         /* receipt and "in stock" */
+    --green-soft: #e7f6ed;
+    --red: #a52e21;           /* remove button */
+    --text: #1f2937;
+    --muted: #606b7b;
+    --border: #e3e8ef;
+    --control-border: #758396;
+    --page-bg: #f4f6f9;
+    --surface: #ffffff;
+    --radius: 14px;
+    --radius-small: 8px;
+    --shadow: 0 1px 3px rgba(15, 42, 74, 0.06), 0 4px 14px rgba(15, 42, 74, 0.06);
+    --shadow-hover: 0 6px 24px rgba(15, 42, 74, 0.14);
+    --content-width: 1180px;
+    /* Side padding of the header and footer. On wide screens it centres their content
+       and lines it up with the page content (which has 20px padding inside main). */
+    --gutter: max(20px, calc((100% - var(--content-width)) / 2 + 20px));
+}
 
-/* Remove default browser margins/paddings and keep one box model for all elements */
+/* ==========================================================================
+   2. Base
+   ========================================================================== */
+
+/* One box model for every element, and no default browser margins */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-/* Base body style: font, light grey background, dark text and readable line spacing */
+/* The page is a column (header, main, footer) at least as tall as the window,
+   so the footer always stays at the bottom even on short pages */
 body {
-    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
-    background-color: #f4f6f8;
-    color: #222;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
     line-height: 1.6;
+    color: var(--text);
+    background-color: var(--page-bg);
 }
 
-/* Centre the main content column and limit its maximum width on wide screens */
+/* Main content: centred column */
 main {
-    max-width: 1100px;
+    width: 100%;
+    max-width: var(--content-width);
     margin: 0 auto;
-    padding: 24px 16px;
+    padding: 40px 20px 56px;
 }
 
-/* Page main heading: large size, dark blue colour, bottom spacing */
+@media (min-width: 1081px) and (min-height: 401px) {
+    html {
+        scroll-padding-top: 90px;
+    }
+}
+
+/* Page title with a short orange bar underneath */
 h1 {
-    font-size: 28px;
-    margin-bottom: 16px;
-    color: #1a3c6e;
+    font-size: 32px;
+    line-height: 1.25;
+    color: var(--navy);
+    margin-bottom: 28px;
 }
 
-/* Sub-heading inside sections */
+h1::after {
+    content: "";
+    display: block;
+    width: 56px;
+    height: 4px;
+    margin-top: 12px;
+    border-radius: 2px;
+    background-color: var(--orange);
+}
+
 h2 {
     font-size: 20px;
+    line-height: 1.35;
+    color: var(--navy);
     margin-bottom: 8px;
-    color: #244a7c;
 }
 
-/* Default paragraph spacing */
 p {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
-/* Default link colour */
 a {
-    color: #1a66c2;
+    color: var(--blue);
 }
 
-/* ---------- Buttons ---------- */
+/* Clear outline for keyboard users on every link, button and input */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+.cart-table:focus-visible {
+    outline: 3px solid var(--blue);
+    outline-offset: 2px;
+}
 
-/* Shared style for every button and button-like link (.button) */
-.button {
-    display: inline-block;
-    padding: 10px 18px;
-    background-color: #1a66c2;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
+/* ==========================================================================
+   3. Header: logo on the left, navigation on the right, stays at the top
+   ========================================================================== */
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 10px var(--gutter);
+    background-color: rgba(255, 255, 255, 0.96);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 2px 10px rgba(15, 42, 74, 0.05);
+}
+
+/* Logo image: shown at a fixed height, width follows its 2:1 shape */
+.logo {
+    display: block;
+    width: auto;
+    height: 56px;
+}
+
+/* Navigation links shown as soft "pill" buttons */
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.main-nav a {
+    padding: 8px 14px;
+    border-radius: 999px;
+    color: var(--text);
     font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.main-nav a:hover {
+    background-color: var(--blue-soft);
+    color: var(--blue);
+}
+
+/* "Shopping Cart" link: orange with a small cart icon, so it is easy to find */
+.main-nav .cart-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 8px;
+    padding: 9px 18px;
+    background-color: var(--orange-action);
+    color: #fff;
+    font-weight: 600;
+}
+
+.main-nav .cart-link::before {
+    content: "";
+    width: 18px;
+    height: 18px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='9' cy='20' r='1.5'/%3E%3Ccircle cx='18' cy='20' r='1.5'/%3E%3Cpath d='M2 3h3l2.7 11.4a2 2 0 0 0 2 1.6h7.6a2 2 0 0 0 2-1.5L21 7H6'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+.main-nav .cart-link:hover {
+    background-color: var(--orange-dark);
+    color: #fff;
+}
+
+/* ==========================================================================
+   4. Buttons
+   ========================================================================== */
+
+/* Main button style, used by every button and button-like link */
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 20px;
+    border: 2px solid var(--blue);
+    border-radius: var(--radius-small);
+    background-color: var(--blue);
+    color: #fff;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
     text-decoration: none;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
 }
 
-/* Darker blue when the mouse hovers over a button */
 .button:hover {
-    background-color: #14519a;
+    background-color: var(--blue-dark);
+    border-color: var(--blue-dark);
 }
 
-/* "Add to Cart" button: green to show a positive action */
-.add-cart-button {
-    background-color: #2e8b57;
+/* Slight press effect when clicked */
+.button:active {
+    transform: translateY(1px);
 }
 
-/* Darker green on hover */
-.add-cart-button:hover {
-    background-color: #246e45;
+/* Secondary buttons (navigation between pages): white with a blue border */
+.page-actions .button,
+.cart-actions a.button {
+    background-color: var(--surface);
+    color: var(--blue);
 }
 
-/* "Buy" button: orange, larger and bold to stand out as the final action */
+.page-actions .button:hover,
+.cart-actions a.button:hover {
+    background-color: var(--blue-soft);
+    color: var(--blue-dark);
+}
+
+/* "Buy": the most important action, orange and larger */
 .buy-button {
-    background-color: #d97706;
-    font-weight: bold;
-    padding: 12px 24px;
+    padding: 13px 34px;
+    font-size: 17px;
+    background-color: var(--orange-action);
+    border-color: var(--orange-action);
+    box-shadow: 0 4px 14px rgba(224, 123, 10, 0.3);
 }
 
-/* Darker orange on hover */
 .buy-button:hover {
-    background-color: #b46205;
+    background-color: var(--orange-dark);
+    border-color: var(--orange-dark);
 }
 
-/* Compact button used for small actions such as Remove */
+/* "Remove": quiet red outline, so it does not compete with "Buy" */
 .small-button {
     padding: 6px 12px;
     font-size: 13px;
 }
 
-/* "Remove" button: red to indicate deleting an item */
 .remove-button {
-    background-color: #c0392b;
+    background-color: transparent;
+    border-color: #f0c2bd;
+    color: var(--red);
 }
 
-/* Darker red on hover */
 .remove-button:hover {
-    background-color: #96281b;
+    background-color: var(--red);
+    border-color: var(--red);
+    color: #fff;
 }
 
-/* ---------- Button row containers ---------- */
-
-/* Flexbox row that holds several buttons together; wraps onto a new line on small screens */
+/* Rows of buttons; they wrap onto the next line on small screens */
 .hero-actions,
 .page-actions,
 .cart-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 20px;
-}
-
-/* ---------- Home page: introduction ---------- */
-
-/* White card that wraps the introduction text on the home page */
-.introduction-section {
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 28px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-}
-
-/* Limit paragraph width so long lines stay easy to read */
-.introduction-section p {
-    max-width: 850px;
-}
-
-/* ---------- Product pages: grid & cards ---------- */
-
-/* Responsive grid: columns adjust automatically based on the available width */
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
-}
-
-/* Single product card: white background, centre-aligned content, vertical flex layout */
-.product-card {
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 18px;
-    text-align: center;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-/* Stronger shadow when hovering over a product card */
-.product-card:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-/* Product image: fixed 220x220 size, cropped to fit, rounded corners, centred */
-.product-image {
-    width: 220px;
-    height: 220px;
-    object-fit: cover;
-    border-radius: 8px;
-    align-self: center;
-}
-
-/* Price line: bold and dark blue to highlight the cost */
-.price {
-    font-weight: bold;
-    color: #1a3c6e;
-}
-
-/* Stock line: smaller grey text, secondary information */
-.stock {
-    color: #666;
-    font-size: 14px;
-}
-
-/* Form that holds the quantity input and the Add to Cart button */
-.add-to-cart-form {
-    display: flex;
-    flex-wrap: wrap;
     align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin-top: auto;
+    gap: 12px;
+    margin-top: 28px;
 }
 
-/* Number input field for choosing the product quantity */
-.qty-input {
-    width: 70px;
-    padding: 6px 8px;
-    border: 1px solid #bbb;
-    border-radius: 6px;
-    font-size: 15px;
-}
+/* ==========================================================================
+   5. Home page (introduction)
+   ========================================================================== */
 
-/* ---------- Cart page ---------- */
-
-/* Green notice bar shown after adding or removing an item in the cart */
-.cart-message {
-    background-color: #e8f4ea;
-    border-left: 4px solid #2e8b57;
-    padding: 12px 16px;
-    border-radius: 6px;
-    margin-bottom: 16px;
-    color: #1f5c39;
-}
-
-/* Message shown when the cart has no items yet */
-.empty-cart-message {
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 28px;
-    text-align: center;
-    font-size: 17px;
-}
-
-/* Cart table: full width, collapsed borders, white card background */
-.cart-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #fff;
-    border-radius: 10px;
+/* White card; overflow: hidden keeps the banner inside the rounded corners */
+.introduction-section {
     overflow: hidden;
-    margin-bottom: 20px;
+    padding: 0 48px 44px;
+    background-color: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
 }
 
-/* Cell padding and left-aligned text for both table headers and data cells */
-.cart-table th,
-.cart-table td {
-    border-bottom: 1px solid #e2e6ea;
-    padding: 12px 14px;
-    text-align: left;
-}
-
-/* Table header row: dark blue background with white text */
-.cart-table th {
-    background-color: #1a3c6e;
+/* The heading is a blue gradient banner across the full width of the card.
+   The negative side margins cancel the card's padding; the banner grows
+   with the heading, so it also works when the heading wraps onto two lines. */
+.introduction-section h1 {
+    margin: 0 -48px 40px;
+    padding: 48px 48px 40px;
+    background: linear-gradient(120deg, var(--navy) 0%, var(--blue) 100%);
+    font-size: 38px;
     color: #fff;
 }
 
-/* Subtotal and grand total numbers: bold so they stand out */
-.subtotal-text,
-.total-text {
-    font-weight: bold;
+/* First paragraph is the lead text: larger and darker */
+.introduction-section > p:first-of-type {
+    font-size: 19px;
+    color: var(--navy);
 }
 
-/* Fieldset that wraps the customer name and address inputs */
-.customer-details {
-    border: 1px solid #d5dbe1;
+/* Each section heading has an orange bar on the left */
+.introduction-section h2 {
+    margin-top: 30px;
+    padding-left: 14px;
+    border-left: 4px solid var(--orange);
+}
+
+/* Keep lines short enough to read comfortably */
+.introduction-section p {
+    max-width: 78ch;
+    color: #374151;
+}
+
+/* The three "Shop ..." links at the end of the home page are shown as equal tiles,
+   separated from the text above by a line, like a "choose where to go next" section */
+.hero-actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 36px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+}
+
+/* Each tile: light blue, text on the left and an arrow on the right */
+.hero-actions .button {
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 72px;
+    padding: 16px 20px;
+    border-color: transparent;
     border-radius: 10px;
-    padding: 18px;
+    background-color: var(--blue-soft);
+    color: var(--navy);
+    font-size: 16px;
+    text-align: left;
+}
+
+.hero-actions .button::after {
+    content: "\2192";    /* right arrow */
+    flex: none;
+    font-size: 20px;
+    transition: transform 0.2s ease;
+}
+
+/* On hover the tile turns dark blue and the arrow moves to the right */
+.hero-actions .button:hover {
+    border-color: var(--blue);
+    background-color: var(--blue);
+    color: #fff;
+}
+
+.hero-actions .button:hover::after {
+    transform: translateX(4px);
+}
+
+/* ==========================================================================
+   6. Shopping pages: product grid and product cards
+   ========================================================================== */
+
+/* Responsive grid: as many 200px-wide columns as fit,
+   so the 5 products of a page fit on one row on a wide screen */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
+    gap: 20px;
+}
+
+/* One product card: white, rounded, lifts up slightly on hover */
+.product-card {
+    display: flex;
+    flex-direction: column;
+    padding: 14px;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Only on devices with a mouse, so a tapped card does not stay lifted on touch screens */
+@media (hover: hover) {
+    .product-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-hover);
+    }
+}
+
+/* Product photo: the whole image is visible at the same height in every card,
+   so photos of different shapes still line up */
+.product-image {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    margin-bottom: 16px;
+    border-radius: 10px;
+}
+
+.product-card h2 {
+    font-size: 17px;
+    margin-bottom: 6px;
+}
+
+/* Short description in grey */
+.product-card p {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 10px;
+}
+
+/* Price: large and bold, the first thing a shopper looks for */
+.product-card .price {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 6px;
+}
+
+/* Stock shown as a small green badge */
+.product-card .stock {
+    align-self: flex-start;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background-color: var(--green-soft);
+    color: var(--green);
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+/* Quantity and "Add to Cart" stay at the bottom of every card,
+   so the buttons line up even when descriptions have different lengths */
+.add-to-cart-form {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+}
+
+.add-to-cart-form label {
+    font-size: 14px;
+    color: var(--muted);
+}
+
+/* The button takes the full width of the card */
+.add-cart-button {
+    grid-column: 1 / -1;
+    width: 100%;
+}
+
+/* Number input for the quantity */
+.qty-input {
+    width: 76px;
+    max-width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--control-border);
+    border-radius: var(--radius-small);
+    font: inherit;
+    font-size: 15px;
     background-color: #fff;
-    margin-bottom: 20px;
 }
 
-/* Legend text inside the customer details box */
+.qty-input:focus {
+    border-color: var(--blue);
+}
+
+/* ==========================================================================
+   7. Shopping cart
+   ========================================================================== */
+
+/* The cart uses the same message element for confirmations and errors. */
+.cart-message {
+    padding: 14px 18px;
+    margin-bottom: 24px;
+    background-color: var(--blue-soft);
+    border: 1px solid #c7d9ef;
+    border-radius: var(--radius-small);
+    color: var(--navy);
+    font-weight: 500;
+    overflow-wrap: anywhere;
+}
+
+/* Empty cart: centred card with a large cart icon */
+.empty-cart-message {
+    padding: 56px 24px;
+    text-align: center;
+    font-size: 18px;
+    color: var(--muted);
+    background-color: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.empty-cart-message::before {
+    content: "";
+    display: block;
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    background: var(--blue-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a66c2' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='9' cy='20' r='1.5'/%3E%3Ccircle cx='18' cy='20' r='1.5'/%3E%3Cpath d='M2 3h3l2.7 11.4a2 2 0 0 0 2 1.6h7.6a2 2 0 0 0 2-1.5L21 7H6'/%3E%3C/svg%3E") no-repeat center / 30px;
+}
+
+/* Position the visually hidden labels relative to the cart and receipt tables. */
+.cart-table {
+    position: relative;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 24px;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    text-align: left;
+}
+
+.cart-table th,
+.cart-table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+}
+
+/* Column headings: small capitals on a light background */
+.cart-table thead th {
+    background-color: #f7f9fc;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+}
+
+/* Light highlight on the row under the mouse */
+.cart-table tbody tr:hover {
+    background-color: #fafbfd;
+}
+
+/* Total row: no line underneath, larger bold numbers */
+.cart-table tfoot th,
+.cart-table tfoot td {
+    border-bottom: none;
+    background-color: #f7f9fc;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--navy);
+}
+
+.cart-table tfoot th {
+    text-align: right;
+}
+
+/* Subtotal cells are semi-bold as a whole (including "HK$") */
+.cart-table tbody td:nth-child(4) {
+    font-weight: 600;
+    color: var(--navy);
+}
+
+.cart-table td:not(:first-child) {
+    white-space: nowrap;
+}
+
+/* The quantity label is hidden visually (the column heading already says "Quantity")
+   but is still read by screen readers */
+.cart-table label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+/* Customer details form: a white card with labels above full-width inputs.
+   min-width: 0 stops the fieldset from becoming wider than the screen */
+.customer-details {
+    min-width: 0;
+    padding: 24px 28px 12px;
+    margin-bottom: 8px;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
 .customer-details legend {
-    font-weight: bold;
-    color: #1a3c6e;
-    padding: 0 8px;
+    float: left;          /* places the title inside the card instead of on its border */
+    width: 100%;
+    margin-bottom: 16px;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--navy);
 }
 
-/* Spacing for each line inside the customer details box */
 .customer-details p {
-    margin-bottom: 12px;
+    clear: both;
+    margin-bottom: 16px;
 }
 
-/* Fixed label width so the inputs line up neatly */
 .customer-details label {
-    display: inline-block;
-    width: 90px;
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
 }
 
-/* Text and address input fields inside the customer details box */
 .customer-details input[type="text"],
 .customer-details textarea {
-    padding: 8px 10px;
-    border: 1px solid #bbb;
-    border-radius: 6px;
-    font-size: 15px;
-    width: 60%;
-}
-
-/* ---------- Thank-you page ---------- */
-
-/* White centred card on the order confirmation page */
-.thank-you-section {
+    width: 100%;
+    max-width: 560px;
+    padding: 11px 14px;
+    border: 1px solid var(--control-border);
+    border-radius: var(--radius-small);
+    font: inherit;
     background-color: #fff;
-    border-radius: 10px;
-    padding: 32px;
-    text-align: center;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    resize: vertical;
 }
 
-/* Order reference number line, slightly larger than normal text */
-.order-reference {
-    font-size: 18px;
-    margin: 16px 0;
+.customer-details input[type="text"]:focus,
+.customer-details textarea:focus {
+    border-color: var(--blue);
+}
+
+/* "Buy" sits on the right, apart from the "keep shopping" links */
+.cart-actions .buy-button {
+    margin-left: auto;
+}
+
+/* ==========================================================================
+   8. Thank-you page
+   ========================================================================== */
+
+/* Centred white card with a green tick at the top.
+   It keeps 20px of space at each side on small screens. */
+.thank-you-section {
+    width: calc(100% - 40px);
+    max-width: 860px;
+    margin: 40px auto 56px;
+    padding: 48px 40px 40px;
+    text-align: center;
+    background-color: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.thank-you-section::before {
+    content: "\2713";
+    display: grid;
+    place-items: center;
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background-color: var(--green-soft);
+    color: var(--green);
+    font-size: 36px;
+    font-weight: 700;
+}
+
+/* Centre the orange bar under the heading on this page */
+.thank-you-section h1 {
+    margin-bottom: 16px;
+}
+
+.thank-you-section h1::after {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.thank-you-section > p {
+    color: var(--muted);
+}
+
+/* Show each sentence of the first message on its own line.
+   pre-line keeps the line break that is already between the two sentences in the HTML.
+   The HTML also starts with a line break, which would add an empty first line,
+   so the paragraph is moved up by exactly one line (line-height 1.6 x font size) to hide it. */
+.thank-you-section > p:first-of-type {
+    white-space: pre-line;
+    margin-top: -1.6em;
+}
+
+/* Order details box: label above value, three columns side by side.
+   The reference and date columns are only as wide as their text and the address
+   gets up to 360px, so long or multi-line addresses still fit.
+   The whole group is centred, while the text inside each column is left-aligned. */
+.order-info {
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-auto-flow: column;
+    grid-template-columns: max-content max-content minmax(0, 360px);
+    justify-content: center;
+    column-gap: 48px;
+    margin: 28px 0;
+    padding: 20px 28px;
+    text-align: left;
+    background-color: #f7f9fc;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+/* Label: small grey capitals */
+.order-info dt {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+}
+
+/* Value: bold dark blue */
+.order-info dd {
+    margin-top: 4px;
+    font-weight: 700;
+    color: var(--navy);
+}
+
+.thank-you-section h1,
+.order-info dd {
+    overflow-wrap: anywhere;
+}
+
+/* The order reference is the most important value, so it is larger and blue */
+.order-info .order-reference {
+    font-size: 20px;
+    color: var(--blue);
+}
+
+/* Centre the buttons under the card */
+.thank-you-section .page-actions {
+    justify-content: center;
+}
+
+/* ==========================================================================
+   9. Footer
+   ========================================================================== */
+.site-footer {
+    margin-top: auto;     /* pushes the footer to the bottom of the window on short pages */
+    padding: 28px var(--gutter);
+    background-color: var(--navy);
+    color: #c8d3e1;
+    font-size: 14px;
+    text-align: center;
+}
+
+.site-footer p {
+    margin: 0;
+}
+
+/* ==========================================================================
+   10. Animations
+   Short and subtle. They only change transform and opacity (smooth on phones),
+   except the slow colour flow of the home banner. All of them are switched off
+   for users who ask their system for less motion (see the end of the file).
+   "backwards" applies the starting frame during the delay and then lets go,
+   so the normal hover effects still work after an animation has finished.
+   ========================================================================== */
+
+/* Fade in while moving up a little */
+@keyframes fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Fade in while sliding down a little */
+@keyframes slide-down {
+    from {
+        opacity: 0;
+        transform: translateY(-12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Grow from nothing to slightly too big, then settle at full size */
+@keyframes pop-in {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    60% {
+        opacity: 1;
+        transform: scale(1.15);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Tilt left and right a few times */
+@keyframes wiggle {
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(-14deg);
+    }
+
+    75% {
+        transform: rotate(14deg);
+    }
+}
+
+/* Move a wide gradient slowly from one side to the other */
+@keyframes gradient-flow {
+    from {
+        background-position: 0% 50%;
+    }
+
+    to {
+        background-position: 100% 50%;
+    }
+}
+
+/* 1. Thank-you page: the green tick pops in */
+.thank-you-section::before {
+    animation: pop-in 0.5s ease-out backwards;
+}
+
+/* 2. Shopping cart: the "added / removed" message slides down */
+.cart-message {
+    animation: slide-down 0.4s ease-out backwards;
+}
+
+/* 3. Shopping pages: the product cards fade up one after another */
+.product-card {
+    animation: fade-up 0.5s ease-out backwards;
+}
+
+.product-card:nth-child(2) {
+    animation-delay: 0.06s;
+}
+
+.product-card:nth-child(3) {
+    animation-delay: 0.12s;
+}
+
+.product-card:nth-child(4) {
+    animation-delay: 0.18s;
+}
+
+.product-card:nth-child(5) {
+    animation-delay: 0.24s;
+}
+
+/* 4. Shopping pages: the photo zooms in a little when the mouse is over the card */
+.product-image {
+    transition: transform 0.3s ease;
+}
+
+@media (hover: hover) {
+    .product-card:hover .product-image {
+        transform: scale(1.05);
+    }
+}
+
+/* 5. Header: the cart icon wiggles when the mouse is over the cart button */
+.main-nav .cart-link:hover::before {
+    animation: wiggle 0.5s ease-in-out;
+}
+
+/* 6. Home page: the banner colours flow very slowly back and forth.
+   The gradient is twice as wide as the banner, so moving it shows different parts. */
+.introduction-section h1 {
+    background-image: linear-gradient(120deg, var(--navy) 0%, var(--blue) 50%, var(--navy) 100%);
+    background-size: 200% 100%;
+    animation: gradient-flow 10s ease-in-out infinite alternate;
+}
+
+/* 7. Thank-you page: after the tick, the content appears from top to bottom */
+.thank-you-section h1,
+.thank-you-section > p,
+.order-info,
+.thank-you-section .cart-table,
+.thank-you-section .page-actions {
+    animation: fade-up 0.5s ease-out backwards;
+}
+
+.thank-you-section h1 {
+    animation-delay: 0.25s;
+}
+
+.thank-you-section > p:first-of-type {
+    animation-delay: 0.35s;
+}
+
+.order-info {
+    animation-delay: 0.45s;
+}
+
+.thank-you-section .cart-table {
+    animation-delay: 0.55s;
+}
+
+.thank-you-section > p:last-of-type,
+.thank-you-section .page-actions {
+    animation-delay: 0.65s;
+}
+
+/* ==========================================================================
+   11. Smaller screens
+   ========================================================================== */
+
+/* Tablets: logo and cart button on the first row, the other links on a second row */
+@media (max-width: 1080px) {
+    .site-header {
+        position: relative;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+    .logo {
+        height: 48px;
+    }
+
+    .main-nav {
+        flex-wrap: wrap;
+    }
+
+    .main-nav a {
+        padding: 7px 12px;
+        font-size: 14px;
+    }
+
+    /* The cart button is taken out of the link row and placed at the top right,
+       level with the logo (the header is the positioned parent) */
+    .main-nav .cart-link {
+        position: absolute;
+        top: 14px;
+        right: var(--gutter);
+        margin-left: 0;
+    }
+}
+
+@media (max-height: 400px) {
+    .site-header {
+        position: relative;
+    }
+}
+
+/* Scroll wide tables inside the page and stack the order details.
+   The home page tiles go one per row. */
+@media (max-width: 760px) {
+    .hero-actions {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .cart-table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    .cart-table th,
+    .cart-table td {
+        padding: 12px 14px;
+    }
+
+    .order-info {
+        grid-auto-flow: row;
+        grid-template-rows: none;
+        grid-template-columns: 1fr;
+        justify-content: stretch;
+        row-gap: 2px;
+    }
+
+    .order-info dd {
+        margin-bottom: 12px;
+    }
+
+    .order-info dd:last-child {
+        margin-bottom: 0;
+    }
+}
+
+/* Phones */
+@media (max-width: 600px) {
+    main {
+        padding: 24px 16px 40px;
+    }
+
+    /* Smaller, closer links so they fit on two lines;
+       the first link lines up with the left edge of the logo */
+    .main-nav {
+        gap: 0;
+        margin-left: -8px;
+    }
+
+    .main-nav a {
+        padding: 6px 8px;
+        font-size: 13px;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+
+    .introduction-section {
+        padding: 0 20px 28px;
+    }
+
+    /* Smaller banner on phones (side margins match the smaller card padding) */
+    .introduction-section h1 {
+        margin: 0 -20px 28px;
+        padding: 32px 20px 28px;
+        font-size: 28px;
+    }
+
+    .introduction-section > p:first-of-type {
+        font-size: 17px;
+    }
+
+    /* Buttons fill the width so they are easy to tap */
+    .hero-actions .button,
+    .page-actions .button,
+    .cart-actions .button {
+        width: 100%;
+    }
+
+    .cart-actions .buy-button {
+        margin-left: 0;
+    }
+
+    .customer-details {
+        padding: 20px 18px 8px;
+    }
+
+    .thank-you-section {
+        width: calc(100% - 32px);
+        margin: 24px auto 40px;
+        padding: 36px 20px 28px;
+    }
+}
+
+@media (max-width: 320px) {
+    .main-nav .cart-link {
+        position: static;
+        margin-left: 8px;
+    }
+
+    .main-nav a {
+        max-width: 100%;
+        white-space: normal;
+    }
+}
+
+/* Users who ask their system for less motion get no animations, hover or press effects */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    .product-card:hover,
+    .product-card:hover .product-image,
+    .button:active {
+        transform: none;
+    }
 }
