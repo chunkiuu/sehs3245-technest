@@ -57,8 +57,8 @@ include 'includes/header.php';
         <h1>Thank You for Shopping with TechNest, <?php echo htmlspecialchars($order['customer_name']); ?>!</h1>
 
         <p>
-            Your order has been received successfully.
-            The products or service plans you selected have been stored in our database.
+            Your order has been placed successfully.
+            A summary of your order is shown below.
         </p>
 
         <!-- Order details, loaded from the orders table -->
