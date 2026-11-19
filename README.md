@@ -26,7 +26,7 @@
 
 | 組員 | 負責語言 | 檔案 |
 |---|---|---|
-| **Chow Chun Kiu**（組長） | PHP | `includes/session.php`、`includes/db.php`、`add_to_cart.php`、`remove_from_cart.php`、`place_order.php`，以及 `shop1/2/3.php`、`cart.php`、`thankyou.php` 的 PHP 部分 |
+| **Chow Chun Kiu**（組長） | PHP | `includes/session.php`、`includes/db.php`、`includes/cart_functions.php`、`add_to_cart.php`、`remove_from_cart.php`、`update_cart.php`、`place_order.php`，以及 `shop1/2/3.php`、`cart.php`、`thankyou.php` 的 PHP 部分 |
 | **KU Ho Tin** | HTML5 | `index.php`、`shop1.php`、`shop2.php`、`shop3.php`、`includes/header.php`、`includes/footer.php`、`images/`，以及 `cart.php`、`thankyou.php` 的 HTML 部分 |
 | **SONG Guoqing** | CSS3 | `css/style.css` |
 | **LIN Zixi** | JavaScript | `js/validation.js` |
@@ -54,7 +54,7 @@
 
 ## JavaScript 待辦（LIN Zixi）
 
-網站其他部分已經完成，只餘下 JavaScript。以下列出需要完成的工作及建議做法。
+網站其他部分已經完成，只餘下 JavaScript。以下列出需要完成的三項工作及建議做法。
 
 ### 基本資料
 
@@ -81,6 +81,7 @@
 | | `textarea#address` | 地址，最多 255 字 |
 | | `button.buy-button` | Buy 按鈕 |
 | | `button.remove-button` | 每行一個 Remove 按鈕（有 `formnovalidate`，用來移除產品） |
+| | 表單第一個（隱藏的）按鈕 | 讓用戶在數量欄按 Enter 時更新購物車（`update_cart.php`），**請勿刪除** |
 
 ### 任務 1：購物頁按「Add to Cart」前檢查數量
 
@@ -109,14 +110,8 @@
   - 姓名不可空白（**只輸入空格也算空白**，用 `.trim()`），最多 50 字
   - 地址不可空白，最多 255 字
   - 每個數量都是 1 至存貨之間的整數
-- **注意**：Remove 按鈕亦在同一個表單內，**不可以阻止 Remove**。在 `#checkout-form` 的 `submit` 事件中，用 `event.submitter` 判斷是哪個按鈕送出，只有 `event.submitter` 是 `.buy-button` 時才檢查
+- **注意**：Remove 按鈕及按 Enter 時使用的隱藏按鈕亦在同一個表單內，**不可以阻止它們**。在 `#checkout-form` 的 `submit` 事件中，用 `event.submitter` 判斷是哪個按鈕送出，只有 `event.submitter` 是 `.buy-button` 時才檢查
 - 錯誤提示同樣可用 `setCustomValidity()` 及 `reportValidity()`
-
-### 任務 4：修正購物車 Enter 鍵問題（已發現的 bug）
-
-- **現象**：在購物車的數量欄按 **Enter**，會**移除第一件產品**
-- **原因**：按 Enter 時，瀏覽器會用表單內**第一個** submit 按鈕送出，而第一個 submit 按鈕正是第一行的 Remove
-- 建議做法：在 `.real-time-qty` 的 `keydown` 事件中，如果 `event.key === 'Enter'`，就 `event.preventDefault()`（可同時重新計算小計及總額）
 
 ### 建議的檔案結構
 
@@ -136,7 +131,7 @@ function isValidQuantity(input) { ... }
 // Task 1: shopping pages
 function setUpAddToCartForms() { ... }
 
-// Task 2 + 4: shopping cart quantities
+// Task 2: shopping cart quantities
 function updateCartTotals() { ... }
 function setUpCartQuantities() { ... }
 
@@ -155,7 +150,7 @@ setUpCheckoutForm();
 - [ ] 購物車：改變數量時，小計及總額即時更新，格式與原本相同（例如 `HK$9,998.00`）
 - [ ] 購物車：姓名或地址留空（或只有空格）時，按 Buy 被阻止並有提示
 - [ ] 購物車：Remove 仍然可以正常移除產品
-- [ ] 購物車：在數量欄按 Enter，不會移除任何產品
+- [ ] 購物車：在數量欄按 Enter，會更新購物車，不會移除任何產品
 - [ ] 其他頁面（首頁、感謝頁）沒有 JavaScript 錯誤（瀏覽器 Console 沒有紅色錯誤）
 - [ ] 每段 JavaScript 都有英文註解
 
@@ -168,6 +163,7 @@ setUpCheckoutForm();
 - 介紹文字、產品內容及圖片沒有修改
 - 感謝頁訊息改為「Your order has been placed successfully. A summary of your order is shown below.」；購物車及感謝頁表格標題由「Product / Service Plan」改為「Product」（本店只售產品，沒有 service plan）
 - 購物頁的「Available quantity」及數量上限、購物車的數量上限，改為從資料庫讀取，下單後會自動減少（HTML 結構不變）
+- 購物車表單最前面加入一個隱藏按鈕：在數量欄按 Enter 時會更新購物車（`update_cart.php`）。修正前，按 Enter 會使用表單內第一個 submit 按鈕，即第一行的 Remove，導致第一件產品被移除
 - `sql/shop.sql` 的資料庫結構與原稿相同，只修改：第 13 行 `--default` 加一個空格（否則匯入時會出錯），以及更換為購物頁的產品資料（產品編號 101 至 305）
 - `sql/shop.sql` 的註解已由 Lo Ching Yu 改為英文；其後再修正 8 行註解（分類名稱改為與網站相同等），SQL 語句沒有改動
 

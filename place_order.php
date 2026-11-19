@@ -13,6 +13,7 @@
  */
 include 'includes/session.php';
 include 'includes/db.php';
+include 'includes/cart_functions.php';
 
 // Only accept an order sent by the Buy button (POST) with at least one product in the cart
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' || empty($_SESSION['cart'])) {
@@ -37,30 +38,21 @@ if ($address === '' || mb_strlen($address) > 255) {
     $errors[] = 'Please enter your address (maximum 255 characters).';
 }
 
-// 2. Use the quantities typed in the cart, check each one against the stock, and add up the total
-$stockStmt = $pdo->prepare('SELECT stock FROM products WHERE product_id = ?');
-$total = 0;
-
-foreach ($_SESSION['cart'] as $id => $item) {
-    // Use the new quantity from the form; if it was not sent, keep the quantity already in the cart
-    $newQuantity = isset($_POST['quantity'][$id]) ? filter_var($_POST['quantity'][$id], FILTER_VALIDATE_INT) : $item['quantity'];
-
-    $stockStmt->execute([$id]);
-    $stock = (int)$stockStmt->fetchColumn();   // fetchColumn() returns the single value (the stock)
-
-    if ($newQuantity === false || $newQuantity < 1 || $newQuantity > $stock) {
-        $errors[] = 'The quantity of ' . $item['product_name'] . ' must be a whole number from 1 to ' . $stock . '.';
-    } else {
-        $_SESSION['cart'][$id]['quantity'] = $newQuantity;
-        $total += $item['unit_price'] * $newQuantity;
-    }
-}
+// 2. Save the quantities typed in the cart; each one is checked against the stock
+//    (updateCartQuantities() is in includes/cart_functions.php and returns any error messages)
+$errors = array_merge($errors, updateCartQuantities($pdo));
 
 // If anything is wrong, go back to the cart and show the first problem (nothing is saved)
 if (!empty($errors)) {
     $_SESSION['cart_message'] = $errors[0];
     header('Location: cart.php?' . SID);
     exit;
+}
+
+// Every quantity is valid: add up the total of the order
+$total = 0;
+foreach ($_SESSION['cart'] as $item) {
+    $total += $item['unit_price'] * $item['quantity'];
 }
 
 // 3. Save the order and reduce the stock, using prepared statements (? placeholders prevent SQL injection).
