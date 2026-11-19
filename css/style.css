@@ -291,10 +291,11 @@ textarea:focus {
         0 4px 14px rgba(15, 42, 74, 0.06);
 }
 
+/* Every photo gets the same 200px box; object-fit keeps its shape (no stretching). */
 .product-image {
     width: 100%;
-    max-height: 200px;
-    height: auto;
+    height: 200px;
+    object-fit: contain;
     margin-bottom: 16px;
     border-radius: 10px;
 }
@@ -308,6 +309,12 @@ textarea:focus {
     font-size: 14px;
     color: #606b7b;
     margin-bottom: 10px;
+}
+
+/* The description (first paragraph after the name) takes up the spare height,
+   so the price, stock badge and form line up at the bottom of every card. */
+.product-card h2 + p {
+    flex-grow: 1;
 }
 
 .product-card .price {
