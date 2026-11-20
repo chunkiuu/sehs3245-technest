@@ -125,15 +125,19 @@ if ($message !== '') { ?>
             <!-- Customer details: saved in the orders table (maxlength matches the table columns) -->
             <fieldset class="customer-details">
                 <legend>Customer Details</legend>
+                <div id="customer-name-container">
                 <p>
                     <label for="customer-name">Name:</label>
                     <input type="text" id="customer-name" name="customer_name" maxlength="50" required="required"
                            value="<?php echo htmlspecialchars($customerName); ?>" />
                 </p>
+                </div>
+                <div id="address-container">
                 <p>
                     <label for="address">Address:</label>
                     <textarea id="address" name="address" maxlength="255" rows="3" cols="40" required="required"><?php echo htmlspecialchars($address); ?></textarea>
                 </p>
+                </div>
             </fieldset>
 
             <div class="cart-actions">
