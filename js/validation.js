@@ -47,7 +47,7 @@ function setUpAddToCartForms() {
         form.addEventListener('submit', function (event) {
             if (!isValidQuantity(qtyInput)) {
                 const max = Number(qtyInput.max);
-                qtyInput.setCustomValidity('Please enter a whole number from 1 to ' + max + '.');
+                alert('Please enter the quantity as a whole number between 1 and ' + max + '.');
                 qtyInput.reportValidity();
                 event.preventDefault();
             } else {
@@ -143,7 +143,7 @@ function setUpCheckoutForm() {
             const input = qtyInputs[i];
             if (!isValidQuantity(input)) {
                 const max = Number(input.max);
-                input.setCustomValidity('Please enter a whole number from 1 to ' + max + '.');
+                alert('Please enter the quantity as a whole number between 1 and ' + max + '.');
                 input.reportValidity();
                 e.preventDefault();
                 return;
